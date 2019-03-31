@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.url">jdbc:postgresql://localhost:5432/car_catalog</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">fastin</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+
+        <mapping resource="ru/kibis/carcatalog/model/Body.hbm.xml"/>
+        <mapping resource="ru/kibis/carcatalog/model/Engine.hbm.xml"/>
+        <mapping resource="ru/kibis/carcatalog/model/Gearbox.hbm.xml"/>
+        <mapping resource="ru/kibis/carcatalog/model/Car.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>
+
+        <!-- &lt;!&ndash; JDBC connection pool (use the built-in) &ndash;&gt;
+         <property name="hibernate.connection.pool_size">1</property>
+         &lt;!&ndash; Echo all executed SQL to stdout &ndash;&gt;
+         <property name="show_sql">true</property>
+         &lt;!&ndash; SQL dialect &ndash;&gt;
+
+         <property name="hibernate.current_session_context_class">thread</property>
+         <property name="hibernate.connection.CharSet">utf8</property>
+         <property name="hibernate.connection.characterEncoding">utf8</property>
+         <property name="hibernate.connection.useUnicode">true</property>-->
+
+
+
