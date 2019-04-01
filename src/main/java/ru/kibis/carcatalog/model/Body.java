@@ -1,17 +1,14 @@
 package ru.kibis.carcatalog.model;
 
-import java.util.List;
-
 public class Body {
     private int id;
-    private String name;
-    private List<Body> bodies;
+    private BodyType type;
 
     public Body() {
     }
 
-    public Body(int id) {
-        this.id = id;
+    public Body(BodyType type) {
+        this.type = type;
     }
 
     public int getId() {
@@ -22,20 +19,11 @@ public class Body {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public BodyType getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(BodyType type) {
+        this.type = type;
     }
-
-    public List<Body> getBodies() {
-        return bodies;
-    }
-
-    public void setBodies(List<Body> bodies) {
-        this.bodies = bodies;
-    }
-
 }

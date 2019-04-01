@@ -1,8 +1,12 @@
 <hibernate-mapping>
-    <class name ="ru.kibis.carcatalog.model.Body" table="car_body">
+    <class name="ru.kibis.carcatalog.model.Body" table="car_body">
         <id name="id" column="id">
             <generator class="identity"/>
         </id>
-        <property name="name" column="body_type"/>
+        <property name="type" column="body_type">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">ru.kibis.carcatalog.model.Body</param>
+            </type>
+        </property>
     </class>
 </hibernate-mapping>

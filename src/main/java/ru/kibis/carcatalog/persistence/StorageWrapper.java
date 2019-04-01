@@ -17,7 +17,8 @@ public class StorageWrapper {
         return INSTANCE;
     }
     public <T> T tx(final Function<Session, T> command) {
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Configuration configuration = new Configuration();
+        SessionFactory factory = configuration.configure().buildSessionFactory();
         final Session session = factory.openSession();
         final Transaction tx = session.beginTransaction();
         try {

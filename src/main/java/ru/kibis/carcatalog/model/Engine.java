@@ -1,17 +1,14 @@
 package ru.kibis.carcatalog.model;
 
-import java.util.List;
-
 public class Engine {
     private int id;
-    private String name;
-    private List<Engine> engines;
+    private EngineType type;
 
     public Engine() {
     }
 
-    public Engine(int id) {
-        this.id = id;
+    public Engine(EngineType type) {
+        this.type = type;
     }
 
     public int getId() {
@@ -22,20 +19,11 @@ public class Engine {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public EngineType getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(EngineType type) {
+        this.type = type;
     }
-
-    public List<Engine> getEngines() {
-        return engines;
-    }
-
-    public void setEngines(List<Engine> engines) {
-        this.engines = engines;
-    }
-
 }

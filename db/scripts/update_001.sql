@@ -1,19 +1,19 @@
 create table if not exists car_body
 (
     id        serial primary key not null,
-    body_type varchar(200)
+    body_type int
 );
 
 create table if not exists car_engine
 (
     id          serial primary key not null,
-    engine_name varchar(200)
+    engine_type int
 );
 
 create table if not exists car_gearbox
 (
     id           serial primary key not null,
-    gearbox_name varchar(200)
+    gearbox_type int
 );
 
 create table if not exists car_catalog

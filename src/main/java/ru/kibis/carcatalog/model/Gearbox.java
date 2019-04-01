@@ -1,17 +1,14 @@
 package ru.kibis.carcatalog.model;
 
-import java.util.List;
-
 public class Gearbox {
     private int id;
-    private String name;
-    private List<Gearbox> gearboxes;
+    private GearboxType type;
 
     public Gearbox() {
     }
 
-    public Gearbox(int id) {
-        this.id = id;
+    public Gearbox(GearboxType type) {
+        this.type = type;
     }
 
     public int getId() {
@@ -22,20 +19,11 @@ public class Gearbox {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public GearboxType getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(GearboxType type) {
+        this.type = type;
     }
-
-    public List<Gearbox> getGearboxes() {
-        return gearboxes;
-    }
-
-    public void setGearboxes(List<Gearbox> gearboxes) {
-        this.gearboxes = gearboxes;
-    }
-
 }
