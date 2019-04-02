@@ -1,9 +1,9 @@
-package ru.kibis.carcatalog.persistence;
+package ru.kibis.car.persistence;
 
-import ru.kibis.carcatalog.model.Body;
-import ru.kibis.carcatalog.model.Car;
-import ru.kibis.carcatalog.model.Engine;
-import ru.kibis.carcatalog.model.Gearbox;
+import ru.kibis.car.model.BodyType;
+import ru.kibis.car.model.Car;
+import ru.kibis.car.model.Engine;
+import ru.kibis.car.model.GearboxType;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class Storage {
         return INSTANCE;
     }
 
-    public Car addCar(String name, Body body, Engine engine, Gearbox gearbox) {
+    public Car addCar(String name, BodyType body, Engine engine, GearboxType gearbox) {
         return WRAPPER.tx(session -> {
             Car car = new Car();
             car.setName(name);
@@ -27,7 +27,7 @@ public class Storage {
         });
     }
 
-    public Car updateCar(Car car, String name, Body body, Engine engine, Gearbox gearbox) {
+    public Car updateCar(Car car, String name, BodyType body, Engine engine, GearboxType gearbox) {
         return WRAPPER.tx(session -> {
             car.setName(name);
             car.setBody(body);

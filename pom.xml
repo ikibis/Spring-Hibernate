@@ -17,7 +17,7 @@
         <profile>
             <id>test</id>
             <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/tracker</db.url>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/car_catalog</db.url>
                 <db.username>postgres</db.username>
                 <db.password>fastin</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -26,7 +26,7 @@
         <profile>
             <id>production</id>
             <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/tracker</db.url>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/car_catalog</db.url>
                 <db.username>postgres</db.username>
                 <db.password>fastin</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -38,7 +38,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <db.url>jdbc:postgresql://localhost/tracker</db.url>
+                <db.url>jdbc:postgresql://localhost/car_catalog</db.url>
                 <db.username>postgres</db.username>
                 <db.password>fastin</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -160,6 +160,8 @@
             <version>5.4.1.Final</version>
             <type>pom</type>
         </dependency>
+
+
     </dependencies>
 
     <build>
@@ -228,6 +230,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
             </plugin>
         </plugins>
     </build>
