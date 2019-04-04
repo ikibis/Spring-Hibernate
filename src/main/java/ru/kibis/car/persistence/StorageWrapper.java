@@ -1,4 +1,4 @@
-package ru.kibis.carcatalog.persistence;
+package ru.kibis.car.persistence;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,8 +16,10 @@ public class StorageWrapper {
     public static StorageWrapper getINSTANCE() {
         return INSTANCE;
     }
+
     public <T> T tx(final Function<Session, T> command) {
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Configuration configuration = new Configuration();
+        SessionFactory factory = configuration.configure().buildSessionFactory();
         final Session session = factory.openSession();
         final Transaction tx = session.beginTransaction();
         try {

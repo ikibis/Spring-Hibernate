@@ -1,4 +1,4 @@
-package ru.kibis.carcatalog;
+package ru.kibis.car;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,11 +7,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-import ru.kibis.carcatalog.model.Body;
-import ru.kibis.carcatalog.model.Car;
-import ru.kibis.carcatalog.model.Engine;
-import ru.kibis.carcatalog.model.Gearbox;
-import ru.kibis.carcatalog.persistence.Storage;
+import ru.kibis.car.model.*;
+import ru.kibis.car.persistence.Storage;
 
 public class StorageTest {
     Storage storage;
@@ -19,22 +16,18 @@ public class StorageTest {
     @Before
     public void beforeTests() {
         storage = Storage.getInstance();
-       /* storage.findCars().stream().forEach(car -> {
-            storage = Storage.getInstance();
-            storage.deleteCar(car);
-        });*/
     }
 
     @Test
     public void whenAddCarThenStore() {
-        Car car = storage.addCar("Audi", new Body(2), new Engine(2), new Gearbox(2));
+        Car car = storage.addCar("Audi", BodyType.SEDAN, new Engine(EngineType.DIESEL, 2.0), GearboxType.AUTOMAT);
         int id = car.getId();
         assertThat(id, is((storage.findById(id)).getId()));
     }
 
     @Test
     public void whenUpdateCarThenStore() {
-        Car car = storage.addCar("Seat", new Body(1), new Engine(1), new Gearbox(1));
+        Car car = storage.addCar("Seat", BodyType.HATCHBACK, new Engine(EngineType.HYBRID, 1.4), GearboxType.AUTOMAT);
         int carId = car.getId();
         storage.updateCar(car, "SeatUpdated", car.getBody(), car.getEngine(), car.getGearbox());
         assertThat(car.getName(), is((storage.findById(carId)).getName()));
@@ -42,7 +35,7 @@ public class StorageTest {
 
     @Test
     public void whenDeleteCarThenCheckIt() {
-        Car car = storage.addCar("Porshe", new Body(1), new Engine(1), new Gearbox(1));
+        Car car = storage.addCar("Porshe", BodyType.HATCHBACK, new Engine(EngineType.PETROL, 3.0), GearboxType.ROBOT);
         storage.deleteCar(car);
         assertNull(storage.findById(car.getId()));
     }
