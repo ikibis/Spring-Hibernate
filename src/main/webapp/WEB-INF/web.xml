@@ -4,5 +4,25 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
+<<<<<<< Updated upstream
+=======
+
+    <servlet>
+        <servlet-name>HallServlet</servlet-name>
+        <servlet-class>ru.kibis.ticketing.controller.HallServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HallServlet</servlet-name>
+        <url-pattern>/hall</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PaymentServlet</servlet-name>
+        <servlet-class>ru.kibis.ticketing.controller.PaymentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentServlet</servlet-name>
+        <url-pattern>/payment</url-pattern>
+    </servlet-mapping>
+>>>>>>> Stashed changes
 </web-app>
 

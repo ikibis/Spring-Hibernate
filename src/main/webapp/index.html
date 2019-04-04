@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Ticketing Service</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/scripts.js"></script>
+<form action="/payment.html" method="get">
+    <div class="container">
+        <div class="row pt-3">
+            <h4>
+                Бронирование мест на сеанс
+            </h4>
+
+            <table class="table table-bordered" name="place" id="place">
+                    <script>$(fillHall());</script>
+            </table>
+            <div class="row float-right">
+                <button type="action" class="btn btn-success">Оплатить</button>
+            </div>
+
+        </div>
+    </div>
+</form>
+</body>
+</html>
