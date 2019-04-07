@@ -1,4 +1,4 @@
-package ru.kibis.car.model;
+package ru.kibis.car.model.car;
 
 public enum BodyType {
     SEDAN,

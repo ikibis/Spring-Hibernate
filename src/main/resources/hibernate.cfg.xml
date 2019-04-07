@@ -8,8 +8,11 @@
         <property name="connection.password">fastin</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
 
-        <mapping class="ru.kibis.car.model.Engine"/>
-        <mapping class="ru.kibis.car.model.Car"/>
+        <mapping class="ru.kibis.car.model.car.Engine"/>
+        <mapping class="ru.kibis.car.model.car.Car"/>
+        <mapping class="ru.kibis.car.model.ad.Ad"/>
+        <mapping class="ru.kibis.car.model.user.User"/>
+        <mapping class="ru.kibis.car.model.ad.Photo"/>
 
     </session-factory>
 </hibernate-configuration>

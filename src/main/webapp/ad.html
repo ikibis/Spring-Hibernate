@@ -14,30 +14,35 @@
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/ad.js"></script>
 <script type="text/javascript" src="/js/scripts.js"></script>
-<script>$(showAll())</script>
 <br/>
 <br/>
+<script>$(showAd())</script>
 <div class="row" name="login_details" id="login_details">
     <script>$(checkUser())</script>
 </div>
 <br/>
-<br/>
+
 <div class="container">
-    <form name="open_ad">
-        <table class="table table-bordered" name="ads" id="ads">
-            <thead>
-            <tr>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Mileage</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        </form>
+    <h2>Photos</h2>
+    <div class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner" id="carPhotos" name="carPhotos">
+            <script>$(getPhoto())</script>
+        </div>
+        <a class="left carousel-control" href="#carPhotos" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carPhotos" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
+<br/>
+<div class="container" name="car_ad" id="car_ad">
 </div>
 
 </body>

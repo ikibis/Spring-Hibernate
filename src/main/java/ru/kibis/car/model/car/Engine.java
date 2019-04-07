@@ -1,4 +1,4 @@
-package ru.kibis.car.model;
+package ru.kibis.car.model.car;
 
 import javax.persistence.*;
 
@@ -38,5 +38,13 @@ public class Engine {
 
     public void setType(EngineType type) {
         this.type = type;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 }

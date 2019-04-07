@@ -133,6 +133,12 @@
             <version>5.4.1.Final</version>
             <type>pom</type>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
 
 
     </dependencies>

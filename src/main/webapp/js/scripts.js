@@ -1,91 +1,229 @@
-function validate() {
-    var result = true;
-    var name = $('#username').val();
-    var phone = $('#phone').val();
-    var re = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
-    var phoneValidate = (re.test(phone)).valueOf();
-    if (name == '') {
-        result = false;
-        alert('Пожалуйста, введите Ваше имя');
-    }
-    if (phone == '') {
-        result = false;
-        alert('Пожалуйста, введите Ваш номер телефона');
-    }
+function goToRegistration() {
+    location.replace("/registration.html");
+}
 
-    if (phoneValidate != true) {
+function validateAuth() {
+    var result = true;
+    var login = $('#login').val();
+    var password = $('#password').val();
+    if (login == '') {
         result = false;
-        alert('Номер телефона введен неправильно!');
+        alert('Please, enter your login');
+    }
+    if (password == '') {
+        result = false;
+        alert('Please, enter your password');
     }
     return result;
 }
 
-function fillHall() {
-    $.ajax({
-        url: '/hall',
-        method: 'POST',
-        complete: function (response) {
-            var hall = JSON.parse(response.responseText);
-            var current_row = 1;
-            var result = "<thead><tr><th style=\"width: 120px;\">"
-                + "Ряд / Место</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><th>1</th>";
-            for (var i = 0; i < hall.length; i++) {
-                var id = hall[i].id;
-                var row = hall[i].row;
-                var place = hall[i].place;
-                var availability = hall[i].availability;
-                var st = "";
-                if (row != current_row) {
-                    result += "</tr><tr><th>" + row + "</th>";
-                    current_row = row;
-                }
-                if (availability == "Busy") {
-                    st = "disabled";
-                }
-                console.log(st);
-                result += "<td><input type = \"radio\" name = \"place\" value =\"" + id + "\"" + st + ">"
-                    + "Ряд " + row + ", Место " + place + " " + availability + "</td>";
-            }
-            result += "</tr></tbody>";
-            $('#place').html(result);
-        }
-    });
+function validateNewUser() {
+    var result = true;
+    var login = $('#login').val();
+    var password = $('#password').val();
+    var name = $('#name').val();
+    var email = $('#email').val();
+    var city = $('#city').val();
+    if (login == '') {
+        result = false;
+        alert('Please, enter your login');
+    }
+    if (password == '') {
+        result = false;
+        alert('Please, enter your password');
+    }
+    if (name == '') {
+        result = false;
+        alert('Please, enter your name');
+    }
+    if (email == '') {
+        result = false;
+        alert('Please, enter your email');
+    }
+    if (city == '') {
+        result = false;
+        alert('Please, enter your city');
+    }
+    return result;
 }
 
-function getPlace(id) {
-    $.ajax({
-        url: '/payment',
-        method: 'GET',
-        data: "id=" + id,
-        complete: function (response) {
-            var place = JSON.parse(response.responseText);
-            var result = "Вы выбрали ряд " + place.row + " место " + place.place + ", Сумма : 500 рублей.";
-            $('#place_details').html(result);
-        }
-    });
-}
-
-function booking(id, user_name, user_phone) {
-    if (validate() == true) {
+function registerUser() {
+    if (validateNewUser()) {
         $.ajax({
-            url: '/payment',
+            url: '/user_create_servlet',
             method: 'POST',
             data: {
-                id: id,
-                name: user_name,
-                phone: user_phone
-            },
-            complete: function (response) {
-                var resp = JSON.parse(response.responseText);
-                if (resp.result) {
-                    alert('Спасибо, ваше место забронировано!');
-                } else {
-                    alert('Извините, но это место уже успел кто-то занять!');
-                }
-                location.replace("/index.html");
+                login: $('#login').val(),
+                password: $('#password').val(),
+                name: $('#name').val(),
+                email: $('#email').val(),
+                city: $('#city').val()
             }
         });
-    } else {
-        false;
     }
+}
+
+function logIn() {
+    if (validateAuth()) {
+        $.ajax({
+            url: '/login',
+            method: 'POST',
+            data: {
+                login: $('#login').val(),
+                password: $('#password').val()
+            },
+            complete: function (response) {
+                var result = JSON.parse(response.responseText);
+                sessionStorage.setItem("login", result.login);
+                sessionStorage.setItem("id", result.id);
+                checkUser();
+            }
+        });
+    }
+}
+
+function logOut() {
+    if (validateAuth()) {
+        $.ajax({
+            url: '/exit',
+            method: 'POST',
+            complete: function () {
+                sessionStorage.removeItem("login");
+                sessionStorage.removeItem("id");
+                checkUser();
+            }
+        });
+    }
+}
+
+function checkUser() {
+    var login = sessionStorage.getItem("login");
+    var result = '';
+    if (login == 'error') {
+        result = ""
+            + "<div class=\"col-sm-1\">"
+            + "</div>"
+            + "<div class=\"col-sm-5\">"
+            + "<form class=\"form-inline\">"
+            + "<div class=\"form-group\">"
+            + "<label for=\"login\">Login: </label>"
+            + "<input type=\"login\" class=\"form-control\" id=\"login\">"
+            + "</div>"
+            + "<div class=\"form-group\">"
+            + "<label for=\"password\">Password: </label>"
+            + "<input type=\"password\" class=\"form-control\" id=\"password\">"
+            + "</div>"
+            + "<div class=\"col-sm-1\">"
+            + "</div>"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"logIn()\">Log in</button>"
+            + "</form>"
+            + "</div>"
+            + "<div class=\"col-sm-2\">"
+            + "<input class=\"form-control\" type=\"text\" id=\"inputError\" placeholder=\"Autorization Error, try again\" disabled>"
+            + "<span class=\"glyphicon glyphicon-remove form-control-feedback\"></span>"
+            + "</div>"
+            + "<div class=\"col-sm-1\">"
+            + "<div class=\"container\">"
+            + "<div class=\"btn-group\">"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"goToIndexPage()\">Show All Ads</button>"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"goToRegistration()\">Create Account</button>"
+            + "</div>"
+            + "</div>"
+            + "</div>";
+    } else if (login == null) {
+        result = ""
+            + "<div class=\"col-sm-1\">"
+            + "</div>"
+            + "<div class=\"col-sm-5\">"
+            + "<form class=\"form-inline\">"
+            + "<div class=\"form-group\">"
+            + "<label for=\"login\">Login: </label>"
+            + "<input type=\"login\" class=\"form-control\" id=\"login\">"
+            + "</div>"
+            + "<div class=\"form-group\">"
+            + "<label for=\"password\">Password: </label>"
+            + "<input type=\"password\" class=\"form-control\" id=\"password\">"
+            + "</div>"
+            + "<div class=\"col-sm-1\">"
+            + "</div>"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"logIn()\">Log in</button>"
+            + "</form>"
+            + "</div>"
+            + "<div class=\"col-sm-2\">"
+            + "</div>"
+            + "<div class=\"col-sm-1\">"
+            + "<div class=\"container\">"
+            + "<div class=\"btn-group\">"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"goToIndexPage()\">Show All Ads</button>"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"goToRegistration()\">Create Account</button>"
+            + "</div>"
+            + "</div>"
+            + "</div>";
+    } else {
+        result = ""
+            + "<div class=\"col-sm-1\">"
+            + "</div>"
+            + "<div class=\"col-sm-6\">"
+            + "<h3> You are logged in as \"" + login + "\"</h3>"
+            + "</div>"
+            + "<div class=\"col-sm-4\">"
+            + "<div class=\"container\">"
+            + "<div class=\"btn-group\">"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"goToIndexPage()\">Show All Ads</button>"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"createAd()\">Create Ad</button>"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"goToProfile()\">My Profile</button>"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"goToMyAds()\">My Ads</button>"
+            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"logOut()\">Exit</button>"
+            + "</div>"
+            + "</div>"
+            + "</div>"
+    }
+    $('#login_details').html(result);
+}
+
+function goToProfile() {
+    location.replace("/profile.html");
+}
+
+function goToIndexPage() {
+    location.replace("/");
+}
+
+function createAd() {
+    location.replace("/create-ad.html");
+}
+
+function showAll() {
+    $.ajax({
+        url: '/ad_servlet',
+        method: 'POST',
+        complete: function (response) {
+            let list = JSON.parse(response.responseText);
+            $("#ads td").parent().remove();
+            for (let i = 0; i < list.length; i++) {
+                $('#ads tr:last').after(
+                    '<tr>' +
+                    '<td>' + list[i].name + '</td>' +
+                    '<td>' + list[i].year + '</td>' +
+                    '<td>' + list[i].mileage + '</td>' +
+                    '<td>'
+                    + "<div class=\"col-sm-offset-4 col-sm-4\">"
+                    + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"goToAd(" + list[i].id + ")\">Details</button>"
+                    + "</div>"
+                    + '</td>'
+                    + '</tr>'
+                );
+            }
+        }
+    });
+}
+
+function goToAd(id) {
+    sessionStorage.removeItem("ad_id");
+    sessionStorage.setItem("ad_id", id);
+    location.replace("/ad.html");
+}
+
+function goToMyAds() {
+    location.replace("/my-ads.html");
 }

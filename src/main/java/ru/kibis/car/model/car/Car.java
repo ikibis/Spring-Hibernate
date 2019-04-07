@@ -1,4 +1,4 @@
-package ru.kibis.car.model;
+package ru.kibis.car.model.car;
 
 import javax.persistence.*;
 
@@ -23,6 +23,16 @@ public class Car {
 
     @Enumerated(EnumType.STRING)
     private GearboxType gearbox;
+
+    public Car() {
+    }
+
+    public Car(String name, BodyType body, Engine engine, GearboxType gearbox) {
+        this.name = name;
+        this.body = body;
+        this.engine = engine;
+        this.gearbox = gearbox;
+    }
 
     public int getId() {
         return id;
