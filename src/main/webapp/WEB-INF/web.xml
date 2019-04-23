@@ -84,6 +84,15 @@
         <servlet-name>ShowPhotoServlet</servlet-name>
         <url-pattern>/show_photo_servlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>BrandServlet</servlet-name>
+        <servlet-class>ru.kibis.car.controller.BrandServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BrandServlet</servlet-name>
+        <url-pattern>/brand_servlet</url-pattern>
+    </servlet-mapping>
+
 
     <!--<filter>
         <filter-name>AuthFilter</filter-name>

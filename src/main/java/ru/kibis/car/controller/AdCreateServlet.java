@@ -31,6 +31,7 @@ public class AdCreateServlet extends HttpServlet {
         enumValues.add(validateServiceAd.getBodyTypes());
         enumValues.add(validateServiceAd.getEngineTypes());
         enumValues.add(validateServiceAd.getGearboxTypes());
+        enumValues.add(validateServiceAd.getManufacturers());
         String jsonInString = mapper.writeValueAsString(enumValues);
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         writer.append(jsonInString);
@@ -41,7 +42,8 @@ public class AdCreateServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final Map<String, String[]> map = req.getParameterMap();
         Car car = new Car(
-                map.get("car_name")[0],
+                Manufacturer.valueOf(map.get("manufacturer")[0]),
+                map.get("model")[0],
                 BodyType.valueOf(map.get("body_type")[0]),
                 new Engine(
                         EngineType.valueOf(map.get("engine_type")[0]),

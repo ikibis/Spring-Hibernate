@@ -18,7 +18,9 @@ public class AdServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<Map<String, String>> ads = validateService.findAllForBoard();
+        String showType = req.getParameter("show_type");
+        String brand = req.getParameter("brand");
+        List<Map<String, String>> ads = validateService.findAllForBoard(showType, brand);
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = mapper.writeValueAsString(ads);
         resp.setContentType("text/json");

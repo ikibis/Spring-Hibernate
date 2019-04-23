@@ -11,8 +11,11 @@ public class Car {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "car_name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private Manufacturer brand;
+
+    @Column(name = "model")
+    private String model;
 
     @Enumerated(EnumType.STRING)
     private BodyType body;
@@ -27,8 +30,9 @@ public class Car {
     public Car() {
     }
 
-    public Car(String name, BodyType body, Engine engine, GearboxType gearbox) {
-        this.name = name;
+    public Car(Manufacturer brand, String model, BodyType body, Engine engine, GearboxType gearbox) {
+        this.brand = brand;
+        this.model = model;
         this.body = body;
         this.engine = engine;
         this.gearbox = gearbox;
@@ -42,12 +46,20 @@ public class Car {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Manufacturer getBrand() {
+        return brand;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBrand(Manufacturer brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public Engine getEngine() {

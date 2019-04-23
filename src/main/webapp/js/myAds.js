@@ -11,7 +11,8 @@ function getUserAds() {
             for (let i = 0; i < list.length; i++) {
                 $('#user_ads tr:last').after(
                     '<tr>' +
-                    '<td>' + list[i].car.name + '</td>' +
+                    '<td>' + list[i].car.brand + '</td>' +
+                    '<td>' + list[i].car.model + '</td>' +
                     '<td>' + list[i].year + '</td>' +
                     '<td>' + list[i].mileage + '</td>' +
                     '<td>' + list[i].status + '</td>' +

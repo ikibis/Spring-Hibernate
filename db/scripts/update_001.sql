@@ -7,7 +7,8 @@ create table if not exists car_engine
 create table if not exists car_catalog
 (
     id        serial primary key not null,
-    car_name  varchar(200),
+    brand     varchar(200),
+    model     varchar(200),
     body      varchar(200),
     engine_id int references car_engine (id),
     gearbox   varchar(200)
@@ -27,7 +28,7 @@ create table if not exists ads
     id          serial primary key not null,
     car_id      int references car_catalog (id),
     user_id     int references users (id),
-    createDate  timestamp,
+    createDate  date,
     status      varchar(200),
     year        int,
     mileage     int,
@@ -36,8 +37,8 @@ create table if not exists ads
 
 create table if not exists photo
 (
-    id     serial primary key not null,
-    photo  bytea,
-    name   varchar(200),
+    id    serial primary key not null,
+    photo bytea,
+    name  varchar(200),
     ad_id int references ads (id)
 );

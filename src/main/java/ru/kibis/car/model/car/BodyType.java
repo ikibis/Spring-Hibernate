@@ -4,6 +4,7 @@ public enum BodyType {
     SEDAN,
     HATCHBACK,
     UNIVERSAL,
+    SUV,
     MINIVAN,
     PICKUP
 }

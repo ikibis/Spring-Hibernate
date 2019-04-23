@@ -4,9 +4,10 @@ import org.hibernate.query.Query;
 import ru.kibis.car.model.ad.Ad;
 import ru.kibis.car.model.ad.Status;
 import ru.kibis.car.model.car.Car;
+import ru.kibis.car.model.car.Manufacturer;
 import ru.kibis.car.model.user.User;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ public class AdStorage {
             ad.setDescription(description);
             ad.setStatus(Status.ACTIVE);
             ad.setCar(car);
-            ad.setCreateDate(new Timestamp(System.currentTimeMillis()));
+            ad.setCreateDate(new Date(System.currentTimeMillis()));
             session.saveOrUpdate(ad);
             return ad;
         });
@@ -65,6 +66,35 @@ public class AdStorage {
                 session -> session.createQuery("from Ad").list()
         );
     }
+
+    public List<Ad> findAdsWithPhoto() {
+        return WRAPPER.tx(
+                session -> session.createQuery("from Ad where id in ( select ad.id from Photo )").list()
+
+        );
+    }
+
+
+    public List<Ad> findAdsAtLastDay() {
+        return WRAPPER.tx(
+                session -> {
+                    Query query = session.createQuery("from Ad where createDate = :param");
+                    query.setParameter("param", new Date(System.currentTimeMillis()));
+                    return query.list();
+                }
+        );
+    }
+
+    public List<Ad> findAdsByBrand(Manufacturer brand) {
+        return WRAPPER.tx(
+                session -> {
+                    Query query = session.createQuery("from Ad where car.brand = :param");
+                    query.setParameter("param", brand);
+                    return query.list();
+                }
+        );
+    }
+
 
     public Ad findById(int id) {
         return WRAPPER.tx(

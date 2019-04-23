@@ -1,91 +1,129 @@
-function fillFields() {
+function fillLists() {
     $.ajax({
-        url: '/ad_edit_servlet',
-        method: 'GET',
-        data: {
-            ad_id: sessionStorage.getItem("ad_id")
-        },
-        complete: function (response) {
-            let parts = fillLists();
-            console.log(fillLists());
-            let ad = JSON.parse(response.responseText);
+            url: '/ad_edit_servlet',
+            method: 'GET',
+            data: {
+                ad_id: sessionStorage.getItem("ad_id")
+            },
+            complete: function (response) {
 
-            var result =
-                "<div class=\"col-sm-1\">"
-                + "</div>"
-                + "<div class=\"col-sm-5\">"
-                + "<form class=\"form-horizontal\">"
-                + "<div class=\"form-group \">"
-                + "<label class=\"control-label col-sm-4\" for=\"car_name\">Car name:</label>"
-                + "<input type=\"text\" class=\"form-control\" id=\"car_name\" value=\"" + ad.car.name + "\" name=\"car_name\">"
-                + "</div>"
-                + "<div class=\"form-group\">"
-                + "<label class=\"control-label col-sm-4\" for=\"body_type\">Body type:</label>"
-                + "<select class=\"form-control col-sm-3\" id=\"body_type\" name=\"body_type\">";
-            for (let i = 0; i < parts[0].length; i++) {
-                var sel = "";
-                if (parts[0][i] == ad.car.body) {
-                    sel = "selected";
+                let ad = JSON.parse(response.responseText);
+                let parts = fillParts();
+                let models = getModels(ad.car.brand);
+
+                let result = "";
+                for (let i = 0; i < parts[3].length; i++) {
+                    var sel = "";
+                    if (parts[3][i] == ad.car.brand) {
+                        sel = "selected";
+                    }
+                    result +=
+                        "<option " + sel + " value=\"" + parts[3][i] + "\">" + parts[3][i] + "</option>";
                 }
-                result +=
-                    "<option " + sel + " value=\"" + parts[0][i] + "\">" + parts[0][i] + "</option>";
-            }
-            result += "</select>"
-                + "</div>"
-                + "<div class=\"form-group\">"
-                + "<label class=\"control-label col-sm-4\" for=\"engine_type\">Engine type:</label>"
-                + "<select class=\"form-control col-sm-3\" id=\"engine_type\">";
-            for (let i = 0; i < parts[1].length; i++) {
-                var sel = "";
-                if (parts[1][i] == ad.car.engine.type) {
-                    sel = "selected";
+                $('#manufacturer').html(result);
+
+                result = "";
+                for (let i = 0; i < models.length; i++) {
+                    var sel = "";
+                    if (models[i] == ad.car.model) {
+                        sel = "selected";
+                    }
+                    result +=
+                        "<option " + sel + " value=\"" + models[i] + "\">" + models[i] + "</option>";
                 }
-                result +=
-                    "<option " + sel + " value=\"" + parts[1][i] + "\">" + parts[1][i] + "</option>";
-            }
-            result += "</select>"
-                + "</div>"
-                + "<div class=\"form-group\">"
-                + "<label class=\"control-label col-sm-4\" for=\"engine_value\">Engine value:</label>"
-                + "<input type=\"number\" class=\"form-control\" id=\"engine_value\" value=\"" + ad.car.engine.value + "\" name=\"engine_value\">"
-                + "</div>"
-                + "<div class=\"form-group\">"
-                + "<label class=\"control-label col-sm-4\" for=\"gearbox_type\">Gearbox type:</label>"
-                + "<select class=\"form-control col-sm-3\" id=\"gearbox_type\">";
+                $('#model').html('<option value="0">-Model-</option>' + result);
 
-            for (let i = 0; i < parts[2].length; i++) {
-                var sel = "";
-                if (parts[2][i] == ad.car.gearbox) {
-                    sel = "selected";
+                result = "";
+                for (let i = 0; i < parts[0].length; i++) {
+                    var sel = "";
+                    if (parts[0][i] == ad.car.body) {
+                        sel = "selected";
+                    }
+                    result +=
+                        "<option " + sel + " value=\"" + parts[0][i] + "\">" + parts[0][i] + "</option>";
                 }
-                result +=
-                    "<option " + sel + " value=\"" + parts[2][i] + "\">" + parts[2][i] + "</option>";
+                $('#body_type').html('<option value="0">-Body Type-</option>' + result);
+
+                result = "";
+                for (let i = 0; i < parts[1].length; i++) {
+                    var sel = "";
+                    if (parts[1][i] == ad.car.engine.type) {
+                        sel = "selected";
+                    }
+                    result +=
+                        "<option " + sel + " value=\"" + parts[1][i] + "\">" + parts[1][i] + "</option>";
+                }
+                $('#engine_type').html('<option value="0">-Engine Type-</option>' + result);
+
+                result = "";
+                for (let i = 0; i < parts[2].length; i++) {
+                    var sel = "";
+                    if (parts[2][i] == ad.car.gearbox) {
+                        sel = "selected";
+                    }
+                    result +=
+                        "<option " + sel + " value=\"" + parts[2][i] + "\">" + parts[2][i] + "</option>";
+                }
+                $('#gearbox_type').html('<option value="0">-Gearbox Type-</option>' + result);
+
+                $('#engine_value').val(ad.car.engine.value);
+                $('#year').val(ad.year);
+                $('#mileage').val(ad.mileage);
+                $('#description').val(ad.description);
             }
-            result += "</select>"
-                + "</div>"
-                + "<div class=\"form-group\">"
-                + "<label class=\"control-label col-sm-4\" for=\"year\">Car year:</label>"
-                + "<input type=\"number\" class=\"form-control\" id=\"year\" value=\"" + ad.year + "\" name=\"year\">"
-                + "</div>"
-                + "<div class=\"form-group\">"
-                + "<label class=\"control-label col-sm-4\" for=\"mileage\">Car mileage:</label>"
-                + "<input type=\"number\" class=\"form-control\" id=\"mileage\" value=\"" + ad.mileage + "\" name=\"mileage\">"
-                + "</div>"
-                + "<div class=\"form-group\">"
-                + "<label for=\"description\">Description:</label>"
-                + "<textarea class=\"form-control\" rows=\"5\" id=\"description\">" + ad.description + "</textarea>"
-                + "</div>"
-                + "<div class=\"form-group\">"
-                + "<div class=\"col-sm-offset-2 col-sm-10\">"
-                + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"updateAd()\">Save Changes</button>"
-                + "</div>"
-                + "</div>"
-                + "</form>";
-
-            $('#edited_ad').html(result);
-
         }
-    });
+    );
+}
+
+function fillParts() {
+    $.ajax({
+            url: '/ad_create_servlet',
+            method: 'GET',
+            async: false,
+            complete: function (response) {
+                lists = JSON.parse(response.responseText);
+            }
+        }
+    );
+    return lists;
+}
+
+function getModels(manufacturer) {
+    $.ajax({
+            url: '/brand_servlet',
+            method: 'POST',
+            data: {
+                manufacturer: manufacturer,
+            },
+            async: false,
+            complete: function (response) {
+                list = JSON.parse(response.responseText);
+            }
+        }
+    );
+    return list;
+}
+
+function fillModels(manufacturer) {
+    $.ajax({
+            url: '/brand_servlet',
+            method: 'POST',
+            data: {
+                manufacturer: manufacturer,
+            },
+            async: false,
+        complete: function (response) {
+            let lists = JSON.parse(response.responseText);
+            let result = "";
+            for (let i = 0; i < lists.length; i++) {
+                result +=
+                    "<option value=\"" + lists[i] + "\">" + lists[i] + "</option>";
+            }
+            $('#model').html('<option value="0">-Car Model-</option>' + result);
+        }
+        }
+    );
+    return list;
 }
 
 function updateAd() {
@@ -96,7 +134,8 @@ function updateAd() {
             data: {
                 user_id: sessionStorage.getItem("id"),
                 ad_id: sessionStorage.getItem("ad_id"),
-                car_name: $('#car_name').val(),
+                manufacturer: $('#manufacturer').val(),
+                model: $('#model').val(),
                 body_type: $('#body_type').val(),
                 engine_type: $('#engine_type').val(),
                 engine_value: $('#engine_value').val(),
@@ -114,7 +153,8 @@ function updateAd() {
 
 function validateAd() {
     let result = true;
-    let car_name = $('#car_name').val();
+    let manufacturer = $('#manufacturer').val();
+    let model = $('#model').val();
     let body_type = $('#body_type').val();
     let engine_type = $('#engine_type').val();
     let engine_value = $('#engine_value').val();
@@ -122,9 +162,13 @@ function validateAd() {
     let year = $('#year').val();
     let mileage = $('#mileage').val();
     let description = $('#description').val();
-    if (car_name === '') {
+    if (manufacturer == 0 || manufacturer == null) {
         result = false;
-        alert('Please, enter your car_name');
+        alert('Please, enter your manufacturer');
+    }
+    if (model == 0 || model == null) {
+        result = false;
+        alert('Please, enter your model');
     }
     if (body_type === '') {
         result = false;
@@ -155,17 +199,4 @@ function validateAd() {
         alert('Please, enter your description');
     }
     return result;
-}
-
-function fillLists() {
-    $.ajax({
-            url: '/ad_create_servlet',
-            method: 'GET',
-            async: false,
-            complete: function (response) {
-                lists = JSON.parse(response.responseText);
-            }
-        }
-    );
-    return lists;
 }

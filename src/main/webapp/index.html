@@ -22,12 +22,38 @@
     <script>$(checkUser())</script>
 </div>
 <br/>
+<div class="row">
+    <div class="col-sm-3">
+    </div>
+    <form class="col-sm-4" onchange="showAll()">
+        <label class="control-label col-sm-4" for="show_type">Show options:</label>
+        <select class="form-control col-sm-4" id="show_type" name="show_type">
+            <option value="all">Show all</option>
+            <option value="last_day">At last day</option>
+            <option value="with_photo">Show with photo</option>
+            <option value="brand">Show manufacturer</option>
+        </select>
+    </form>
+
+    <form class="col-sm-4" onchange="showAll()" id="show_manufacturers">
+        <script>
+            $('#show_type').change(function () {
+                if ($('#show_type').val() == "brand") {
+                    fillBrands();
+                } else {
+                    $('#show_manufacturers').html('');
+                }
+            });
+        </script>
+    </form>
+</div>
 <br/>
 <div class="container">
     <form name="open_ad">
         <table class="table table-bordered" name="ads" id="ads">
             <thead>
             <tr>
+                <th>Manufacturer</th>
                 <th>Model</th>
                 <th>Year</th>
                 <th>Mileage</th>
@@ -37,7 +63,7 @@
             <tbody>
             </tbody>
         </table>
-        </form>
+    </form>
 </div>
 
 </body>

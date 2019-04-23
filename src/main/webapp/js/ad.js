@@ -9,9 +9,10 @@ function showAd() {
         complete: function (response) {
             let ad = JSON.parse(response.responseText);
             let result = ""
-                + " <h2>" + ad.car.name + "</h2>\n" +
+                + " <h2>" + ad.car.brand + " " + ad.car.model + "</h2>\n" +
                 "  <ul class=\"list-group\">\n" +
-                "    <li class=\"list-group-item\">Model : " + ad.car.name + "</li>\n" +
+                "    <li class=\"list-group-item\">Manufacturer : " + ad.car.brand + "</li>\n" +
+                "    <li class=\"list-group-item\">Model : " + ad.car.model + "</li>\n" +
                 "    <li class=\"list-group-item\">Body type : " + ad.car.body + "</li>\n" +
                 "    <li class=\"list-group-item\">Engine type : " + ad.car.engine.type + "</li>\n" +
                 "    <li class=\"list-group-item\">Engine value : " + ad.car.engine.value + "</li>\n" +

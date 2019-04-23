@@ -18,14 +18,14 @@ public class Update implements ActionAd {
     public Ad doAction(ValidateServiceAd validateService, HttpServletRequest req) {
         final Map<String, String[]> map = req.getParameterMap();
         Car car = new Car(
-                map.get("car_name")[0],
+                Manufacturer.valueOf(map.get("manufacturer")[0]),
+                map.get("model")[0],
                 BodyType.valueOf(map.get("body_type")[0]),
                 new Engine(
                         EngineType.valueOf(map.get("engine_type")[0]),
                         Integer.valueOf(map.get("engine_value")[0])),
                 GearboxType.valueOf(map.get("gearbox_type")[0])
         );
-        System.out.println(car.getName());
         User user = validateServiceUser.findById(Integer.valueOf(map.get("user_id")[0]));
         Ad ad = validateServiceAd.findById(Integer.valueOf(map.get("ad_id")[0]));
         return validateService.updateAd(

@@ -4,6 +4,7 @@ import ru.kibis.car.model.car.Car;
 import ru.kibis.car.model.user.User;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -35,7 +36,7 @@ public class Ad {
     private Status status;
 
     @Column(name = "createdate")
-    private Timestamp createDate;
+    private Date createDate;
 
     public int getId() {
         return id;
@@ -93,11 +94,11 @@ public class Ad {
         this.status = status;
     }
 
-    public Timestamp getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 }
