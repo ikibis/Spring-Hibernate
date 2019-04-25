@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.url">jdbc:hsqldb:mem:car_catalog;sql.enforce_size=false</property>
+        <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+        <property name="connection.username">sa</property>
+        <property name="connection.password"></property>
+        <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+
+        <mapping class="ru.kibis.car.model.car.Engine"/>
+        <mapping class="ru.kibis.car.model.car.Car"/>
+        <mapping class="ru.kibis.car.model.ad.Ad"/>
+        <mapping class="ru.kibis.car.model.user.User"/>
+        <mapping class="ru.kibis.car.model.ad.Photo"/>
+
+    </session-factory>
+</hibernate-configuration>
+
+
+
+
