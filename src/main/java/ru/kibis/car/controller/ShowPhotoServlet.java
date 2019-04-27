@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ShowPhotoServlet extends HttpServlet {
-    private PhotoStorage photoStorage = PhotoStorage.getInstance();
+    private final PhotoStorage photoStorage = PhotoStorage.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int photoId = Integer.valueOf(req.getParameter("id"));

@@ -12,7 +12,7 @@ import java.util.function.Function;
 public class StorageWrapper {
     private static final Logger LOGGER = LogManager.getLogger(StorageWrapper.class.getName());
     private static final StorageWrapper INSTANCE = new StorageWrapper();
-    private SessionFactory factory;
+    private final SessionFactory factory;
 
     public StorageWrapper() {
         factory = new Configuration().configure().buildSessionFactory();

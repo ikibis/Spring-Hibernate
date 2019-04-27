@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UserStorageTest {
-    UserStorage userStorage;
+    private UserStorage userStorage;
 
     @Before
     public void beforeTests() {

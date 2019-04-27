@@ -23,7 +23,7 @@ public class UserUpdateServlet extends HttpServlet {
     /**
      * Фабрика для действий пользователя
      */
-    private ActionFactoryUser factory = ActionFactoryUser.getInstance();
+    private final ActionFactoryUser factory = ActionFactoryUser.getInstance();
 
     /**
      * Метод GET извлекает из параметров HTTP запроса "id",

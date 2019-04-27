@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class BrandServlet extends HttpServlet {
-    ValidateServiceAd validateServiceAd = ValidateServiceAd.getInstance();
+    private final ValidateServiceAd validateServiceAd = ValidateServiceAd.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

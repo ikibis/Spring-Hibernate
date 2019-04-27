@@ -14,7 +14,7 @@ public class UserCreateServlet extends HttpServlet {
     /**
      * Фабрика для действий пользователя
      */
-    private ActionFactoryUser factory = ActionFactoryUser.getInstance();
+    private final ActionFactoryUser factory = ActionFactoryUser.getInstance();
 
     /**
      * Метод POST вызывает метод action фабрки для создания нового пользователя,

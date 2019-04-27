@@ -19,9 +19,9 @@ import java.util.Map;
 
 public class AdCreateServlet extends HttpServlet {
 
-    private ActionFactoryAd factory = ActionFactoryAd.getInstance();
-    ValidateServiceAd validateServiceAd = ValidateServiceAd.getInstance();
-    ValidateServiceUser validateServiceUser = ValidateServiceUser.getInstance();
+    private final ActionFactoryAd factory = ActionFactoryAd.getInstance();
+    private final ValidateServiceAd validateServiceAd = ValidateServiceAd.getInstance();
+    private final ValidateServiceUser validateServiceUser = ValidateServiceUser.getInstance();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

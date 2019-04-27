@@ -23,7 +23,7 @@ import java.util.List;
 
 public class PhotoServlet extends HttpServlet {
 
-    private PhotoStorage photoStorage = PhotoStorage.getInstance();
+    private final PhotoStorage photoStorage = PhotoStorage.getInstance();
     private final ValidateServiceAd validateService = ValidateServiceAd.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(StorageWrapper.class.getName());
 

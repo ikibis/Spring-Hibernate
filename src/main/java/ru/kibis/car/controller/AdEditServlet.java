@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 public class AdEditServlet extends HttpServlet {
 
     private final ValidateServiceAd validateServiceAd = ValidateServiceAd.getInstance();
-    private ActionFactoryAd factory = ActionFactoryAd.getInstance();
+    private final ActionFactoryAd factory = ActionFactoryAd.getInstance();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
