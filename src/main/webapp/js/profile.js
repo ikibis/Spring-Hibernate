@@ -1,5 +1,5 @@
 function findUser() {
-    let id = sessionStorage.getItem("id");
+    var id = sessionStorage.getItem("id");
     var result;
     $.ajax({
         url: '/user_update_servlet',

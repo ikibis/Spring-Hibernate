@@ -1,5 +1,5 @@
 function showAd() {
-    let ad_id = sessionStorage.getItem("ad_id");
+    var ad_id = sessionStorage.getItem("ad_id");
     $.ajax({
         url: '/ad_servlet',
         method: 'GET',
@@ -7,8 +7,8 @@ function showAd() {
             ad_id: ad_id
         },
         complete: function (response) {
-            let ad = JSON.parse(response.responseText);
-            let result = ""
+            var ad = JSON.parse(response.responseText);
+            var result = ""
                 + " <h2>" + ad.car.brand + " " + ad.car.model + "</h2>\n" +
                 "  <ul class=\"list-group\">\n" +
                 "    <li class=\"list-group-item\">Manufacturer : " + ad.car.brand + "</li>\n" +
@@ -40,7 +40,7 @@ function getPhoto() {
         complete: function (response) {
             var result = '';
             var photosIdList = JSON.parse(response.responseText);
-            for (let i = 0; i < photosIdList.length; i++) {
+            for (var i = 0; i < photosIdList.length; i++) {
                 if (i == 0) {
                     result += '<div class="item active">';
                 } else {

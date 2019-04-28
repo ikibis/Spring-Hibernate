@@ -58,6 +58,9 @@ function registerUser() {
                 name: $('#name').val(),
                 email: $('#email').val(),
                 city: $('#city').val()
+            },
+            complete: function () {
+                location.replace("/");
             }
         });
     }
@@ -194,17 +197,19 @@ function createAd() {
 }
 
 function showAll() {
+    var show_type = $('#show_type').val() == null ? 'empty' : $('#show_type').val();
+    var brand = $('#manufacturer').val() == null ? 'empty' : $('#manufacturer').val();
     $.ajax({
         url: '/ad_servlet',
         method: 'POST',
         data: {
-            show_type: $('#show_type').val(),
-            brand : $('#manufacturer').val()
+            show_type: show_type,
+            brand: brand
         },
         complete: function (response) {
-            let list = JSON.parse(response.responseText);
+            var list = JSON.parse(response.responseText);
             $("#ads td").parent().remove();
-            for (let i = 0; i < list.length; i++) {
+            for (var i = 0; i < list.length; i++) {
                 $('#ads tr:last').after(
                     '<tr>' +
                     '<td>' + list[i].brand + '</td>' +
@@ -238,12 +243,12 @@ function fillBrands() {
             url: '/ad_create_servlet',
             method: 'GET',
             complete: function (response) {
-                let lists = JSON.parse(response.responseText);
+                var lists = JSON.parse(response.responseText);
                 result = ""
                     + '<label class="control-label col-sm-4" for="manufacturer">Select manufacturer:</label>'
                     + '<select class="form-control col-sm-4" id="manufacturer" name="manufacturer">'
                     + '<option value="empty">-Manufacturer-</option>';
-                for (let i = 0; i < lists[3].length; i++) {
+                for (var i = 0; i < lists[3].length; i++) {
                     result +=
                         "<option value=\"" + lists[3][i] + "\">" + lists[3][i] + "</option>";
                 }

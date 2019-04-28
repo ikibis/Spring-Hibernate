@@ -6,9 +6,9 @@ function getUserAds() {
             user_id: sessionStorage.getItem("id")
         },
         complete: function (response) {
-            let list = JSON.parse(response.responseText);
+            var list = JSON.parse(response.responseText);
             $("#user_ads td").parent().remove();
-            for (let i = 0; i < list.length; i++) {
+            for (var i = 0; i < list.length; i++) {
                 $('#user_ads tr:last').after(
                     '<tr>' +
                     '<td>' + list[i].car.brand + '</td>' +
