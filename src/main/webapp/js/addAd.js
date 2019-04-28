@@ -16,7 +16,7 @@ function addAd() {
                 description: $('#description').val(),
             },
             complete: function (response) {
-                let ad = JSON.parse(response.responseText);
+                var ad = JSON.parse(response.responseText);
                 sendPhoto(ad.id);
             }
         });
@@ -24,16 +24,16 @@ function addAd() {
 }
 
 function validateAd() {
-    let result = true;
-    let manufacturer = $('#manufacturer').val();
-    let model = $('#model').val();
-    let body_type = $('#body_type').val();
-    let engine_type = $('#engine_type').val();
-    let engine_value = $('#engine_value').val();
-    let gearbox_type = $('#gearbox_type').val();
-    let year = $('#year').val();
-    let mileage = $('#mileage').val();
-    let description = $('#description').val();
+    var result = true;
+    var manufacturer = $('#manufacturer').val();
+    var model = $('#model').val();
+    var body_type = $('#body_type').val();
+    var engine_type = $('#engine_type').val();
+    var engine_value = $('#engine_value').val();
+    var gearbox_type = $('#gearbox_type').val();
+    var year = $('#year').val();
+    var mileage = $('#mileage').val();
+    var description = $('#description').val();
     if (manufacturer == 0 || manufacturer == null) {
         result = false;
         alert('Please, enter your manufacturer');
@@ -78,30 +78,30 @@ function fillLists() {
             url: '/ad_create_servlet',
             method: 'GET',
             complete: function (response) {
-                let lists = JSON.parse(response.responseText);
-                let result = "";
-                for (let i = 0; i < lists[0].length; i++) {
+                var lists = JSON.parse(response.responseText);
+                var result = "";
+                for (var i = 0; i < lists[0].length; i++) {
                     result +=
                         "<option value=\"" + lists[0][i] + "\">" + lists[0][i] + "</option>";
                 }
                 $('#body_type').html('<option value="0">-Body Type-</option>' + result);
 
                 result = "";
-                for (let i = 0; i < lists[1].length; i++) {
+                for (var i = 0; i < lists[1].length; i++) {
                     result +=
                         "<option value=\"" + lists[1][i] + "\">" + lists[1][i] + "</option>";
                 }
                 $('#engine_type').html('<option value="0">-Engine Type-</option>' + result);
 
                 result = "";
-                for (let i = 0; i < lists[2].length; i++) {
+                for (var i = 0; i < lists[2].length; i++) {
                     result +=
                         "<option value=\"" + lists[2][i] + "\">" + lists[2][i] + "</option>";
                 }
                 $('#gearbox_type').html('<option value="0">-Gearbox Type-</option>' + result);
 
                 result = "";
-                for (let i = 0; i < lists[3].length; i++) {
+                for (var i = 0; i < lists[3].length; i++) {
                     result +=
                         "<option value=\"" + lists[3][i] + "\">" + lists[3][i] + "</option>";
                 }
@@ -138,9 +138,9 @@ function fillModels(manufacturer) {
                 manufacturer: manufacturer,
             },
             complete: function (response) {
-                let lists = JSON.parse(response.responseText);
-                let result = "";
-                for (let i = 0; i < lists.length; i++) {
+                var lists = JSON.parse(response.responseText);
+                var result = "";
+                for (var i = 0; i < lists.length; i++) {
                     result +=
                         "<option value=\"" + lists[i] + "\">" + lists[i] + "</option>";
                 }

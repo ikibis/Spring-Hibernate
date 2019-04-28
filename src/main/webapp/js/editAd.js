@@ -7,12 +7,12 @@ function fillLists() {
             },
             complete: function (response) {
 
-                let ad = JSON.parse(response.responseText);
-                let parts = fillParts();
-                let models = getModels(ad.car.brand);
+                var ad = JSON.parse(response.responseText);
+                var parts = fillParts();
+                var models = getModels(ad.car.brand);
 
-                let result = "";
-                for (let i = 0; i < parts[3].length; i++) {
+                var result = "";
+                for (var i = 0; i < parts[3].length; i++) {
                     var sel = "";
                     if (parts[3][i] == ad.car.brand) {
                         sel = "selected";
@@ -23,7 +23,7 @@ function fillLists() {
                 $('#manufacturer').html(result);
 
                 result = "";
-                for (let i = 0; i < models.length; i++) {
+                for (var i = 0; i < models.length; i++) {
                     var sel = "";
                     if (models[i] == ad.car.model) {
                         sel = "selected";
@@ -34,7 +34,7 @@ function fillLists() {
                 $('#model').html('<option value="0">-Model-</option>' + result);
 
                 result = "";
-                for (let i = 0; i < parts[0].length; i++) {
+                for (var i = 0; i < parts[0].length; i++) {
                     var sel = "";
                     if (parts[0][i] == ad.car.body) {
                         sel = "selected";
@@ -45,7 +45,7 @@ function fillLists() {
                 $('#body_type').html('<option value="0">-Body Type-</option>' + result);
 
                 result = "";
-                for (let i = 0; i < parts[1].length; i++) {
+                for (var i = 0; i < parts[1].length; i++) {
                     var sel = "";
                     if (parts[1][i] == ad.car.engine.type) {
                         sel = "selected";
@@ -56,7 +56,7 @@ function fillLists() {
                 $('#engine_type').html('<option value="0">-Engine Type-</option>' + result);
 
                 result = "";
-                for (let i = 0; i < parts[2].length; i++) {
+                for (var i = 0; i < parts[2].length; i++) {
                     var sel = "";
                     if (parts[2][i] == ad.car.gearbox) {
                         sel = "selected";
@@ -113,9 +113,9 @@ function fillModels(manufacturer) {
             },
             async: false,
         complete: function (response) {
-            let lists = JSON.parse(response.responseText);
-            let result = "";
-            for (let i = 0; i < lists.length; i++) {
+            var lists = JSON.parse(response.responseText);
+            var result = "";
+            for (var i = 0; i < lists.length; i++) {
                 result +=
                     "<option value=\"" + lists[i] + "\">" + lists[i] + "</option>";
             }
@@ -152,16 +152,16 @@ function updateAd() {
 }
 
 function validateAd() {
-    let result = true;
-    let manufacturer = $('#manufacturer').val();
-    let model = $('#model').val();
-    let body_type = $('#body_type').val();
-    let engine_type = $('#engine_type').val();
-    let engine_value = $('#engine_value').val();
-    let gearbox_type = $('#gearbox_type').val();
-    let year = $('#year').val();
-    let mileage = $('#mileage').val();
-    let description = $('#description').val();
+    var result = true;
+    var manufacturer = $('#manufacturer').val();
+    var model = $('#model').val();
+    var body_type = $('#body_type').val();
+    var engine_type = $('#engine_type').val();
+    var engine_value = $('#engine_value').val();
+    var gearbox_type = $('#gearbox_type').val();
+    var year = $('#year').val();
+    var mileage = $('#mileage').val();
+    var description = $('#description').val();
     if (manufacturer == 0 || manufacturer == null) {
         result = false;
         alert('Please, enter your manufacturer');
