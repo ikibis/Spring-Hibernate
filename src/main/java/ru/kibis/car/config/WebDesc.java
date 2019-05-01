@@ -34,6 +34,3 @@ public class WebDesc extends AbstractAnnotationConfigDispatcherServletInitialize
         };
     }
 }
-
-
-

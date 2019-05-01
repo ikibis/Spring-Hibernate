@@ -118,9 +118,13 @@ function sendPhoto(id) {
             ajaxData.append(id, file);
         })
     });
+    alert(ajaxData);
     $.ajax({
         url: '/photo_servlet',
-        data: ajaxData,
+        data: {
+            files: ajaxData,
+            ad_id: id
+        },
         processData: false,
         contentType: false,
         type: 'POST',

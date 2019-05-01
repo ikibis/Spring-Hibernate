@@ -197,12 +197,14 @@ function createAd() {
 }
 
 function showAll() {
+    var show_type = $('#show_type').val() == null ? 'empty' : $('#show_type').val();
+    var brand = $('#manufacturer').val() == null ? 'empty' : $('#manufacturer').val();
     $.ajax({
         url: '/ad_servlet',
         method: 'POST',
         data: {
-            show_type: $('#show_type').val(),
-            brand : $('#manufacturer').val()
+            show_type: show_type,
+            brand: brand
         },
         complete: function (response) {
             var list = JSON.parse(response.responseText);
