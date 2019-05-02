@@ -1,42 +1,49 @@
 package ru.kibis.car.model.ad;
 
+import org.springframework.data.annotation.PersistenceConstructor;
 import ru.kibis.car.model.car.Car;
 import ru.kibis.car.model.user.User;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
-
 @Entity
 @Table(name = "ads")
 public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "year")
     private int year;
-
-    @Column(name = "mileage")
     private int mileage;
-
-    @Column(name = "description")
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(name ="status")
     private Status status;
 
-    @Column(name = "createdate")
+    @Column(name ="createdate")
     private Date createDate;
+
+    public Ad() {
+    }
+    @PersistenceConstructor
+    public Ad(Car car, User user, int year, int mileage, String description, Status status, Date createDate) {
+        this.car = car;
+        this.user = user;
+        this.year = year;
+        this.mileage = mileage;
+        this.description = description;
+        this.status = status;
+        this.createDate = createDate;
+    }
 
     public int getId() {
         return id;

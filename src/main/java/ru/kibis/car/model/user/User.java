@@ -1,33 +1,35 @@
 package ru.kibis.car.model.user;
 
+import org.springframework.data.annotation.PersistenceConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
-
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "login")
     private String login;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "createDate")
     private Timestamp createDate;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "city")
     private String city;
+
+    public User() {
+    }
+
+    @PersistenceConstructor
+    public User(String login, String password, Timestamp createDate, String name, String email, String city) {
+        this.login = login;
+        this.password = password;
+        this.createDate = createDate;
+        this.name = name;
+        this.email = email;
+        this.city = city;
+    }
 
     public int getId() {
         return id;

@@ -1,13 +1,14 @@
 package ru.kibis.car.model.car;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.PersistenceConstructor;
 
+import javax.persistence.*;
 @Entity
 @Table(name = "car_catalog")
 public class Car {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
@@ -20,7 +21,7 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private BodyType body;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "engine_id")
     private Engine engine;
 
@@ -30,6 +31,7 @@ public class Car {
     public Car() {
     }
 
+    @PersistenceConstructor
     public Car(Manufacturer brand, String model, BodyType body, Engine engine, GearboxType gearbox) {
         this.brand = brand;
         this.model = model;
