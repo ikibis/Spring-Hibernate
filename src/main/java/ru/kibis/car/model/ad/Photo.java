@@ -1,5 +1,7 @@
 package ru.kibis.car.model.ad;
 
+import org.springframework.data.annotation.PersistenceConstructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,30 +9,29 @@ import javax.persistence.*;
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "photo")
     private byte[] photo;
 
-    @Column(name = "name")
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ad_id")
     private Ad ad;
 
-    public Photo() { }
+    public Photo() {
+    }
 
+    @PersistenceConstructor
     public Photo(byte[] photo, String name, Ad ad) {
         this.photo = photo;
         this.name = name;
         this.ad = ad;
     }
 
-    public Photo(byte[] photo) {
+    /*public Photo(byte[] photo) {
         this.photo = photo;
-    }
+    }*/
 
     public int getId() {
         return id;

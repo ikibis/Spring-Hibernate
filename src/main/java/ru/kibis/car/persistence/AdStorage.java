@@ -1,114 +1,82 @@
 package ru.kibis.car.persistence;
 
-import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 import ru.kibis.car.model.ad.Ad;
 import ru.kibis.car.model.ad.Status;
 import ru.kibis.car.model.car.Car;
 import ru.kibis.car.model.car.Manufacturer;
 import ru.kibis.car.model.user.User;
+import ru.kibis.car.repository.AdDataRepository;
 
 import java.sql.Date;
 import java.util.List;
 
-
+@Component
 public class AdStorage {
-    private static final AdStorage INSTANCE = new AdStorage();
-    private static final StorageWrapper WRAPPER = StorageWrapper.getINSTANCE();
 
-    public static AdStorage getInstance() {
-        return INSTANCE;
+    private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("spring-context.xml");
+    private static final AdDataRepository REPOSITORY = CONTEXT.getBean(AdDataRepository.class);
+
+    @Autowired
+    public AdStorage() {
     }
 
     public Ad addAd(User user, Car car, int year, int mileage, String description) {
-        return WRAPPER.tx(session -> {
-            Ad ad = new Ad();
-            ad.setUser(user);
-            ad.setYear(year);
-            ad.setMileage(mileage);
-            ad.setDescription(description);
-            ad.setStatus(Status.ACTIVE);
-            ad.setCar(car);
-            ad.setCreateDate(new Date(System.currentTimeMillis()));
-            session.saveOrUpdate(ad);
-            return ad;
-        });
+        Ad ad = new Ad();
+        ad.setUser(user);
+        ad.setYear(year);
+        ad.setMileage(mileage);
+        ad.setDescription(description);
+        ad.setStatus(Status.ACTIVE);
+        ad.setCar(car);
+        ad.setCreateDate(new Date(System.currentTimeMillis()));
+        REPOSITORY.save(ad);
+        return ad;
     }
 
     public Ad updateAd(Ad ad, User user, Car car, int year, int mileage, String description) {
-        return WRAPPER.tx(session -> {
-            ad.setUser(user);
-            ad.setCar(car);
-            ad.setYear(year);
-            ad.setMileage(mileage);
-            ad.setDescription(description);
-            session.saveOrUpdate(ad);
-            return ad;
-        });
+        ad.setUser(user);
+        ad.setCar(car);
+        ad.setYear(year);
+        ad.setMileage(mileage);
+        ad.setDescription(description);
+        REPOSITORY.save(ad);
+        return ad;
     }
 
     public Ad updateStatus(Ad ad, Status status) {
-        return WRAPPER.tx(session -> {
-            ad.setStatus(status);
-            session.saveOrUpdate(ad);
-            return ad;
-        });
+        ad.setStatus(status);
+        REPOSITORY.save(ad);
+        return ad;
     }
 
-    public Ad deleteAd(Ad ad) {
-        return WRAPPER.tx(session -> {
-            session.delete(ad);
-            return ad;
-        });
+    public void deleteAd(int id) {
+        REPOSITORY.deleteById(id);
     }
 
     public List<Ad> findAds() {
-        return WRAPPER.tx(
-                session -> session.createQuery("from Ad").list()
-        );
+        return REPOSITORY.findAll();
+    }
+
+    public Ad findById(int id) {
+        return REPOSITORY.findById(id);
     }
 
     public List<Ad> findAdsWithPhoto() {
-        return WRAPPER.tx(
-                session -> session.createQuery("from Ad where id in ( select ad.id from Photo )").list()
-
-        );
+        return REPOSITORY.findAdsWithPhoto();
     }
 
-
     public List<Ad> findAdsAtLastDay() {
-        return WRAPPER.tx(
-                session -> {
-                    Query query = session.createQuery("from Ad where createDate = :param");
-                    query.setParameter("param", new Date(System.currentTimeMillis()));
-                    return query.list();
-                }
-        );
+        return REPOSITORY.findAdsAtLastDay(new Date(System.currentTimeMillis()));
     }
 
     public List<Ad> findAdsByBrand(Manufacturer brand) {
-        return WRAPPER.tx(
-                session -> {
-                    Query query = session.createQuery("from Ad where car.brand = :param");
-                    query.setParameter("param", brand);
-                    return query.list();
-                }
-        );
+        return REPOSITORY.findAdsByBrand(brand);
     }
-
-
-    public Ad findById(int id) {
-        return WRAPPER.tx(
-                session -> session.get(Ad.class, id)
-        );
-    }
-
     public List<Ad> findByUser(User user) {
-        return WRAPPER.tx(
-                session -> {
-                    Query query = session.createQuery("from Ad where user.id = :param");
-                    query.setParameter("param", user.getId());
-                    return query.list();
-                }
-        );
+        return REPOSITORY.findAllByUser(user);
     }
 }

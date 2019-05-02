@@ -1,58 +1,50 @@
 package ru.kibis.car.persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 import ru.kibis.car.model.ad.Photo;
+import ru.kibis.car.repository.PhotoDataRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Component
 public class PhotoStorage {
-    private static final PhotoStorage INSTANCE = new PhotoStorage();
-    private static final StorageWrapper WRAPPER = StorageWrapper.getINSTANCE();
+    private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("spring-context.xml");
+    private static final PhotoDataRepository PHOTO_DATA_REPOSITORY = CONTEXT.getBean(PhotoDataRepository.class);
 
-    public static PhotoStorage getInstance() {
-        return INSTANCE;
-    }
-
+    @Autowired
     private PhotoStorage() {
     }
 
     public int add(Photo photo) {
-        return WRAPPER.tx(session -> {
-            session.save(photo);
-            return photo.getId();
-        });
-    }
-
-    public int update(Photo photo) {
-        return WRAPPER.tx(session -> {
-            session.update(photo);
-            return photo.getId();
-        });
+        PHOTO_DATA_REPOSITORY.save(photo);
+        return photo.getId();
     }
 
     public int delete(int id) {
-        return WRAPPER.tx(session -> {
-            Photo photo = session.get(Photo.class, id);
-            session.delete(photo);
-            return photo.getId();
-        });
+        PHOTO_DATA_REPOSITORY.deleteById(id);
+        return id;
     }
 
     public List<Photo> getAll() {
-        return WRAPPER.tx(session -> session.createQuery("from Photo ").list());
+        return PHOTO_DATA_REPOSITORY.findAll();
     }
 
     public Photo getById(int id) {
-        return WRAPPER.tx(session -> session.get(Photo.class, id));
+        return PHOTO_DATA_REPOSITORY.findById(id);
     }
 
     public Photo getByName(String name) {
         return null;
     }
 
-    public List<String> getImagesIdByAdId(int id) {
-        return WRAPPER.tx(session ->
-                        session.createQuery("select id from Photo where ad.id = : adId")
-                                .setParameter("adId", id).list()
-                );
+    public List<Integer> getImagesIdByAdId(int adId) {
+        List<Photo> photos = PHOTO_DATA_REPOSITORY.findAllByAdId(adId);
+        return photos.stream()
+                .map(Photo::getId)
+                .collect(Collectors.toList());
     }
 }

@@ -1,28 +1,29 @@
 package ru.kibis.car.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 import ru.kibis.car.model.ad.Ad;
 import ru.kibis.car.model.ad.Status;
 import ru.kibis.car.model.car.*;
 import ru.kibis.car.model.user.User;
 import ru.kibis.car.persistence.AdStorage;
 import ru.kibis.car.persistence.PhotoStorage;
+import ru.kibis.car.persistence.UserStorage;
 
 import javax.persistence.EnumType;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
+@Component
 public class ValidateServiceAd {
+    private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("spring-context.xml");
+    private static final AdStorage AD_STORAGE = CONTEXT.getBean(AdStorage.class);
 
-    private final AdStorage storage = AdStorage.getInstance();
-    private final PhotoStorage photoStorage = PhotoStorage.getInstance();
-
-    private static class Holder {
-        private static final ValidateServiceAd INSTANCE = new ValidateServiceAd();
-    }
-
-    public static ValidateServiceAd getInstance() {
-        return Holder.INSTANCE;
+    @Autowired
+    public ValidateServiceAd() {
     }
 
     public Ad addAd(User user, Car car, int year, int mileage, String description) {
@@ -32,7 +33,7 @@ public class ValidateServiceAd {
                 && year > 0
                 && mileage >= 0
                 && description != null) {
-            result = storage.addAd(user, car, year, mileage, description);
+            result = AD_STORAGE.addAd(user, car, year, mileage, description);
         }
         return result;
     }
@@ -46,7 +47,7 @@ public class ValidateServiceAd {
                 && mileage >= 0
                 && description != null
         ) {
-            result = storage.updateAd(ad, user, car, year, mileage, description);
+            result = AD_STORAGE.updateAd(ad, user, car, year, mileage, description);
         }
         return result;
     }
@@ -54,14 +55,13 @@ public class ValidateServiceAd {
     public Ad updateStatus(Ad ad, Status status) {
         Ad result = null;
         if (ad != null && status != null) {
-            result = storage.updateStatus(ad, status);
+            result = AD_STORAGE.updateStatus(ad, status);
         }
         return result;
     }
 
     public void deleteAd(int id) {
-        Ad ad = this.findById(id);
-        storage.deleteAd(ad);
+        AD_STORAGE.deleteAd(id);
     }
 
     public List<Map<String, String>> findAllForBoard(String searchType, String brand) {
@@ -73,22 +73,22 @@ public class ValidateServiceAd {
         if (searchType != null) {
             switch (searchType) {
                 case "last_day":
-                    fromStorage = storage.findAdsAtLastDay();
+                    fromStorage = AD_STORAGE.findAdsAtLastDay();
                     break;
                 case "with_photo":
-                    fromStorage = storage.findAdsWithPhoto();
+                    fromStorage = AD_STORAGE.findAdsWithPhoto();
                     break;
                 case "brand":
                     if (brandToSearch != null) {
-                        fromStorage = storage.findAdsByBrand(brandToSearch);
+                        fromStorage = AD_STORAGE.findAdsByBrand(brandToSearch);
                     }
                     break;
                 default:
-                    fromStorage = storage.findAds();
+                    fromStorage = AD_STORAGE.findAds();
                     break;
             }
         } else {
-            fromStorage = storage.findAds();
+            fromStorage = AD_STORAGE.findAds();
         }
 
         List<Map<String, String>> result = new ArrayList<>();
@@ -105,13 +105,15 @@ public class ValidateServiceAd {
         return result;
     }
 
+
     public Ad findById(int id) {
-        return storage.findById(id);
+        return AD_STORAGE.findById(id);
     }
 
     public List<Ad> findByUser(User user) {
-        return storage.findByUser(user);
+        return AD_STORAGE.findByUser(user);
     }
+
 
     public List<String> getAdStatuses() {
         return Arrays.stream(

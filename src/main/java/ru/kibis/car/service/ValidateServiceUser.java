@@ -1,21 +1,22 @@
 package ru.kibis.car.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 import ru.kibis.car.model.user.User;
 import ru.kibis.car.persistence.UserStorage;
 
 import java.sql.Timestamp;
 import java.util.List;
 
+@Component
 public class ValidateServiceUser {
+    private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("spring-context.xml");
+    private static final UserStorage USER_STORAGE = CONTEXT.getBean(UserStorage.class);
 
-    private final UserStorage storage = UserStorage.getInstance();
-
-    private static class Holder {
-        private static final ValidateServiceUser INSTANCE = new ValidateServiceUser();
-    }
-
-    public static ValidateServiceUser getInstance() {
-        return Holder.INSTANCE;
+    @Autowired
+    public ValidateServiceUser() {
     }
 
     /**
@@ -37,7 +38,7 @@ public class ValidateServiceUser {
                 && name != null
                 && email != null
                 && city != null) {
-            result = storage.addUser(login, password, createDate, name, email, city);
+            result = USER_STORAGE.addUser(login, password, createDate, name, email, city);
         }
         return result;
     }
@@ -50,22 +51,22 @@ public class ValidateServiceUser {
                 && name != null
                 && email != null
                 && city != null) {
-            result = storage.updateUser(user, login, password, name, email, city);
+            result = USER_STORAGE.updateUser(user, login, password, name, email, city);
         }
         return result;
     }
 
     public void delete(int id) {
         User user = this.findById(id);
-        storage.deleteUser(user);
+        USER_STORAGE.deleteUser(user);
     }
 
     public List<User> findAll() {
-        return storage.findUsers();
+        return USER_STORAGE.findUsers();
     }
 
     public User findById(int id) {
-        return storage.findById(id);
+        return USER_STORAGE.findById(id);
     }
 
     public User isCredentional(String login, String password) {

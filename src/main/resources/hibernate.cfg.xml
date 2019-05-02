@@ -1,7 +1,8 @@
+<!--
 <?xml version='1.0' encoding='utf-8'?>
 <hibernate-configuration>
     <session-factory>
-        <!-- Database connection settings -->
+        &lt;!&ndash; Database connection settings &ndash;&gt;
         <property name="connection.url">jdbc:postgresql://localhost:5432/car_catalog</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
@@ -15,8 +16,4 @@
         <mapping class="ru.kibis.car.model.ad.Photo"/>
 
     </session-factory>
-</hibernate-configuration>
-
-
-
-
+</hibernate-configuration>-->

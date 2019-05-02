@@ -1,5 +1,8 @@
 package ru.kibis.car.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,39 +12,46 @@ import ru.kibis.car.model.ad.Ad;
 import ru.kibis.car.model.ad.Status;
 import ru.kibis.car.model.car.*;
 import ru.kibis.car.model.user.User;
+import ru.kibis.car.persistence.AdStorage;
+import ru.kibis.car.repository.AdDataRepository;
 import ru.kibis.car.service.ValidateServiceAd;
 import ru.kibis.car.service.ValidateServiceUser;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class AdController {
-    private final ValidateServiceAd validateServiceAd = ValidateServiceAd.getInstance();
-    private final ValidateServiceUser validateServiceUser = ValidateServiceUser.getInstance();
+    private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("spring-context.xml");
+    private static final ValidateServiceAd VALIDATE_SERVICE_AD = CONTEXT.getBean(ValidateServiceAd.class);
+    private static final ValidateServiceUser VALIDATE_SERVICE_USER = CONTEXT.getBean(ValidateServiceUser.class);
 
     @RequestMapping(value = "/ad_servlet", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public List findAllForBoard(
             @RequestParam("show_type") String showType,
             @RequestParam("brand") String brand) {
-        return validateServiceAd.findAllForBoard(showType, brand);
+        return VALIDATE_SERVICE_AD.findAllForBoard(showType, brand);
     }
 
     @RequestMapping(value = "/ad_servlet", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Ad findById(@RequestParam("ad_id") int id) {
-        return validateServiceAd.findById(id);
+        return VALIDATE_SERVICE_AD.findById(id);
     }
 
     @RequestMapping(value = "/ad_create_servlet", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List getParts() {
         List<List<String>> enumValues = new ArrayList<>();
-        enumValues.add(validateServiceAd.getBodyTypes());
-        enumValues.add(validateServiceAd.getEngineTypes());
-        enumValues.add(validateServiceAd.getGearboxTypes());
-        enumValues.add(validateServiceAd.getManufacturers());
+        enumValues.add(VALIDATE_SERVICE_AD.getBodyTypes());
+        enumValues.add(VALIDATE_SERVICE_AD.getEngineTypes());
+        enumValues.add(VALIDATE_SERVICE_AD.getGearboxTypes());
+        enumValues.add(VALIDATE_SERVICE_AD.getManufacturers());
         return enumValues;
     }
 
@@ -53,23 +63,30 @@ public class AdController {
             @RequestParam("body_type") String bodyType,
             @RequestParam("engine_type") String engineType,
             @RequestParam("engine_value") int engineValue,
+            //@RequestParam("engine") String engineJson,
             @RequestParam("gearbox_type") String gearboxType,
             @RequestParam("user_id") int userId,
             @RequestParam("year") int year,
             @RequestParam("mileage") int mileage,
             @RequestParam("description") String description
-    ) {
+    ) throws IOException {
+
+
+        //ObjectMapper objectMapper = new ObjectMapper();
+        //Engine engine = objectMapper.readValue(engineJson, Engine.class);
+        //System.out.println(engine.getType() + " " + engine.getValue());
         Car car = new Car(
                 Manufacturer.valueOf(manufacturer),
                 model,
                 BodyType.valueOf(bodyType),
                 new Engine(
                         EngineType.valueOf(engineType),
-                        engineValue),
+                        engineValue
+                ),
                 GearboxType.valueOf(gearboxType)
         );
-        User user = validateServiceUser.findById(userId);
-        return validateServiceAd.addAd(
+        User user = VALIDATE_SERVICE_USER.findById(userId);
+        return VALIDATE_SERVICE_AD.addAd(
                 user,
                 car,
                 year,
@@ -81,13 +98,13 @@ public class AdController {
     @RequestMapping(value = "/brand_servlet", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public List getModels(@RequestParam("manufacturer") String manufacturer) {
-        return validateServiceAd.getModels(manufacturer);
+        return VALIDATE_SERVICE_AD.getModels(manufacturer);
     }
 
     @RequestMapping(value = "/ad_edit_servlet", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Ad getAd(@RequestParam("ad_id") int adId) {
-        return validateServiceAd.findById(adId);
+        return VALIDATE_SERVICE_AD.findById(adId);
     }
 
     @RequestMapping(value = "/ad_edit_servlet", method = RequestMethod.POST, produces = "application/json")
@@ -114,9 +131,9 @@ public class AdController {
                         engineValue),
                 GearboxType.valueOf(gearboxType)
         );
-        User user = validateServiceUser.findById(userId);
-        Ad ad = validateServiceAd.findById(adId);
-        return validateServiceAd.updateAd(
+        User user = VALIDATE_SERVICE_USER.findById(userId);
+        Ad ad = VALIDATE_SERVICE_AD.findById(adId);
+        return VALIDATE_SERVICE_AD.updateAd(
                 ad,
                 user,
                 car,
@@ -129,8 +146,8 @@ public class AdController {
     @RequestMapping(value = "/my_ads_servlet", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List getMyAds(@RequestParam("user_id") int userId) {
-        User user = validateServiceUser.findById(userId);
-        return validateServiceAd.findByUser(user);
+        User user = VALIDATE_SERVICE_USER.findById(userId);
+        return VALIDATE_SERVICE_AD.findByUser(user);
     }
 
     @RequestMapping(value = "/my_ads_servlet", method = RequestMethod.POST, produces = "application/json")
@@ -138,8 +155,8 @@ public class AdController {
     public Ad updateAdStatus(
             @RequestParam("ad_id") int adId,
             @RequestParam("ad_status") String adStatus) {
-        Ad ad = validateServiceAd.findById(adId);
+        Ad ad = VALIDATE_SERVICE_AD.findById(adId);
         Status status = Status.valueOf(adStatus);
-        return validateServiceAd.updateStatus(ad, status);
+        return VALIDATE_SERVICE_AD.updateStatus(ad, status);
     }
 }
