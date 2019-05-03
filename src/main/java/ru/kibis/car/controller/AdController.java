@@ -69,12 +69,7 @@ public class AdController {
             @RequestParam("year") int year,
             @RequestParam("mileage") int mileage,
             @RequestParam("description") String description
-    ) throws IOException {
-
-
-        //ObjectMapper objectMapper = new ObjectMapper();
-        //Engine engine = objectMapper.readValue(engineJson, Engine.class);
-        //System.out.println(engine.getType() + " " + engine.getValue());
+    ) {
         Car car = new Car(
                 Manufacturer.valueOf(manufacturer),
                 model,

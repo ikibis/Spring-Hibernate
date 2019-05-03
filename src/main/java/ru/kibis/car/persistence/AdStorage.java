@@ -1,8 +1,9 @@
 package ru.kibis.car.persistence;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.kibis.car.model.ad.Ad;
 import ru.kibis.car.model.ad.Status;
@@ -16,9 +17,10 @@ import java.util.List;
 
 @Component
 public class AdStorage {
-
-    private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("spring-context.xml");
-    private static final AdDataRepository REPOSITORY = CONTEXT.getBean(AdDataRepository.class);
+    private static final Logger LOGGER = LogManager.getLogger(AdStorage.class.getName());
+    @Qualifier("adDataRepository")
+    @Autowired
+    private AdDataRepository adDataRepository;
 
     @Autowired
     public AdStorage() {
@@ -33,7 +35,12 @@ public class AdStorage {
         ad.setStatus(Status.ACTIVE);
         ad.setCar(car);
         ad.setCreateDate(new Date(System.currentTimeMillis()));
-        REPOSITORY.save(ad);
+        try {
+            adDataRepository.save(ad);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
         return ad;
     }
 
@@ -43,40 +50,41 @@ public class AdStorage {
         ad.setYear(year);
         ad.setMileage(mileage);
         ad.setDescription(description);
-        REPOSITORY.save(ad);
+        adDataRepository.save(ad);
         return ad;
     }
 
     public Ad updateStatus(Ad ad, Status status) {
         ad.setStatus(status);
-        REPOSITORY.save(ad);
+        adDataRepository.save(ad);
         return ad;
     }
 
     public void deleteAd(int id) {
-        REPOSITORY.deleteById(id);
+        adDataRepository.deleteById(id);
     }
 
     public List<Ad> findAds() {
-        return REPOSITORY.findAll();
+        return adDataRepository.findAll();
     }
 
     public Ad findById(int id) {
-        return REPOSITORY.findById(id);
+        return adDataRepository.findById(id);
     }
 
     public List<Ad> findAdsWithPhoto() {
-        return REPOSITORY.findAdsWithPhoto();
+        return adDataRepository.findAdsWithPhoto();
     }
 
     public List<Ad> findAdsAtLastDay() {
-        return REPOSITORY.findAdsAtLastDay(new Date(System.currentTimeMillis()));
+        return adDataRepository.findAdsAtLastDay(new Date(System.currentTimeMillis()));
     }
 
     public List<Ad> findAdsByBrand(Manufacturer brand) {
-        return REPOSITORY.findAdsByBrand(brand);
+        return adDataRepository.findAdsByBrand(brand);
     }
+
     public List<Ad> findByUser(User user) {
-        return REPOSITORY.findAllByUser(user);
+        return adDataRepository.findAllByUser(user);
     }
 }

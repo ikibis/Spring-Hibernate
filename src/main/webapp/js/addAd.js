@@ -1,9 +1,5 @@
 function addAd() {
     if (validateAd()) {
-        var engine = {
-
-        };
-
         $.ajax({
             url: '/ad_create_servlet',
             method: 'POST',
