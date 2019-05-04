@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Auto Seller</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/scripts.js"></script>
+<script>$(showAll())</script>
+<br/>
+<br/>
+<div class="row" name="login_details" id="login_details">
+    <script>$(checkUser())</script>
+</div>
+<br/>
+<div class="row">
+    <div class="col-sm-3">
+    </div>
+    <form class="col-sm-4" onchange="showAll()">
+        <label class="control-label col-sm-4" for="show_type">Show options:</label>
+        <select class="form-control col-sm-4" id="show_type" name="show_type">
+            <option value="all">Show all</option>
+            <option value="last_day">At last day</option>
+            <option value="with_photo">Show with photo</option>
+            <option value="brand">Show manufacturer</option>
+        </select>
+    </form>
+
+    <form class="col-sm-4" onchange="showAll()" id="show_manufacturers">
+        <script>
+            $('#show_type').change(function () {
+                if ($('#show_type').val() == "brand") {
+                    fillBrands();
+                } else {
+                    $('#show_manufacturers').html('');
+                }
+            });
+        </script>
+    </form>
+</div>
+<br/>
+<div class="container">
+    <form name="open_ad">
+        <table class="table table-bordered" name="ads" id="ads">
+            <thead>
+            <tr>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Mileage</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

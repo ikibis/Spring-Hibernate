@@ -10,11 +10,11 @@
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
 
-        <mapping class="ru.kibis.car.model.car.Engine"/>
-        <mapping class="ru.kibis.car.model.car.Car"/>
-        <mapping class="ru.kibis.car.model.ad.Ad"/>
-        <mapping class="ru.kibis.car.model.user.User"/>
-        <mapping class="ru.kibis.car.model.ad.Photo"/>
+        <mapping class="ru.kibis.car.domain.car.Engine"/>
+        <mapping class="ru.kibis.car.domain.car.Car"/>
+        <mapping class="ru.kibis.car.domain.Ad"/>
+        <mapping class="ru.kibis.car.domain.User"/>
+        <mapping class="ru.kibis.car.domain.Photo"/>
 
     </session-factory>
 </hibernate-configuration>

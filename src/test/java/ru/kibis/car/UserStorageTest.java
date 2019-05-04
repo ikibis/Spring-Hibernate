@@ -7,7 +7,7 @@
 //import static org.hamcrest.core.Is.is;
 //import static org.junit.Assert.*;
 //
-//import ru.kibis.car.model.user.User;
+//import ru.kibis.car.domain.User;
 //import ru.kibis.car.persistence.UserStorage;
 //
 //import java.sql.Timestamp;

@@ -8,16 +8,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import ru.kibis.car.model.ad.Photo;
-import ru.kibis.car.persistence.PhotoStorage;
-import ru.kibis.car.service.ValidateServiceAd;
+import org.springframework.web.bind.annotation.*;
+import ru.kibis.car.domain.Photo;
+import ru.kibis.car.service.AdService;
+import ru.kibis.car.service.PhotoService;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -29,16 +25,21 @@ import java.util.List;
 @Controller
 public class PhotoController {
     private static final Logger LOGGER = LogManager.getLogger(PhotoController.class.getName());
-    private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("spring-context.xml");
-    private static final PhotoStorage PHOTO_STORAGE = CONTEXT.getBean(PhotoStorage.class);
-    private static final ValidateServiceAd VALIDATE_SERVICE_AD = CONTEXT.getBean(ValidateServiceAd.class);
 
-  @RequestMapping(value = "/photo_servlet", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public List findPhotosIdByAdId(@RequestParam("ad_id") int adId) {
-        return PHOTO_STORAGE.getImagesIdByAdId(adId);
+    private final PhotoService photoService;
+    private final AdService adService;
+
+    @Autowired
+    public PhotoController(PhotoService photoService, AdService adService) {
+        this.photoService = photoService;
+        this.adService = adService;
     }
 
+    @GetMapping(value = "/photo_servlet", produces = "application/json")
+    @ResponseBody
+    public List findPhotosIdByAdId(@RequestParam("ad_id") int adId) {
+        return this.photoService.getImagesIdByAdId(adId);
+    }
 
  /* @RequestMapping(value = "/photo_servlet", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
@@ -60,8 +61,7 @@ public class PhotoController {
         }
     }*/
 
-
-    @RequestMapping(value = "/photo_servlet", method = RequestMethod.POST)
+    @PostMapping("/photo_servlet")
     public void addPhoto(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println(req.getParameter("files"));
         System.out.println(resp);
@@ -78,7 +78,7 @@ public class PhotoController {
                         byte[] bytes = IOUtils.toByteArray(item.getInputStream());
                         String photoName = item.getName();
                         int adId = Integer.valueOf(item.getFieldName());
-                        result = PHOTO_STORAGE.add(new Photo(bytes, photoName, VALIDATE_SERVICE_AD.findById(adId)));
+                        result = this.photoService.add(new Photo(bytes, photoName, this.adService.findById(adId)));
                     }
                 }
             } catch (FileUploadException e) {
@@ -94,10 +94,10 @@ public class PhotoController {
         }
     }
 
-    @RequestMapping(value = "/show_photo_servlet", method = RequestMethod.GET)
+    @GetMapping("/show_photo_servlet")
     public void findPhotoByAdId(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int photoId = Integer.valueOf(req.getParameter("id"));
-        Photo photo = PHOTO_STORAGE.getById(photoId);
+        Photo photo = this.photoService.getById(photoId);
         String photoName = photo.getName();
         byte[] photoBytes = photo.getPhoto();
         ServletOutputStream outputStream = resp.getOutputStream();
