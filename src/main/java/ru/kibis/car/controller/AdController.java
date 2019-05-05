@@ -7,8 +7,8 @@ import ru.kibis.car.domain.Ad;
 import ru.kibis.car.domain.Status;
 import ru.kibis.car.domain.car.*;
 import ru.kibis.car.domain.User;
-import ru.kibis.car.service.AdService;
-import ru.kibis.car.service.UserService;
+import ru.kibis.car.service.interfaces.AdService;
+import ru.kibis.car.service.interfaces.UserService;
 
 import java.sql.Date;
 import java.util.ArrayList;

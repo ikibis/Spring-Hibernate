@@ -10,6 +10,7 @@ import ru.kibis.car.domain.car.EngineType;
 import ru.kibis.car.domain.car.GearboxType;
 import ru.kibis.car.domain.car.Manufacturer;
 import ru.kibis.car.repository.AdRepository;
+import ru.kibis.car.service.interfaces.AdService;
 
 import java.sql.Date;
 import java.util.*;

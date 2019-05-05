@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -14,8 +14,8 @@
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/static/js/scripts.js"></script>
-<script type="text/javascript" src="/static/js/myAds.js"></script>
+<script th:src="@{/js/scripts.js}" ></script>
+<script th:src="@{/js/myAds.js}" ></script>
 <script>$(getUserAds())</script>
 <br/>
 <br/>

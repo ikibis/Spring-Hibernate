@@ -118,18 +118,19 @@ function sendPhoto(id) {
             ajaxData.append(id, file);
         })
     });
-    alert(ajaxData);
     $.ajax({
         url: '/photo_servlet',
-        data: {
+        enctype: 'multipart/form-data',
+        data: ajaxData,
+        /*data: {
             files: ajaxData,
             ad_id: id
-        },
+        },*/
         processData: false,
         contentType: false,
         type: 'POST',
         complete: function () {
-            location.replace("/");
+            location.replace("/index.html");
         }
     });
 }

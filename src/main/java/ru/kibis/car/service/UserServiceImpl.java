@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kibis.car.domain.User;
 import ru.kibis.car.repository.UserRepository;
+import ru.kibis.car.service.interfaces.UserService;
 
 import java.util.List;
 @Service

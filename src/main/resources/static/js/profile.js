@@ -69,7 +69,7 @@ function updateUser() {
                 city: $('#city').val()
             },
             complete: function () {
-                location.replace("/");
+                location.replace("/index.html");
             }
         });
     }

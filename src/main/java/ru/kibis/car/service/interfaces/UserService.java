@@ -1,4 +1,4 @@
-package ru.kibis.car.service;
+package ru.kibis.car.service.interfaces;
 
 import ru.kibis.car.domain.User;
 

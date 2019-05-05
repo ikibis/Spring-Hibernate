@@ -145,7 +145,7 @@ function updateAd() {
                 description: $('#description').val(),
             },
             complete: function () {
-                location.replace("/");
+                location.replace("/index.html");
             }
         });
     }

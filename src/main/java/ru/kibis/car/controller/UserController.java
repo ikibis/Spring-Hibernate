@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.kibis.car.domain.User;
-import ru.kibis.car.service.UserService;
+import ru.kibis.car.service.interfaces.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;

@@ -60,7 +60,7 @@ function registerUser() {
                 city: $('#city').val()
             },
             complete: function () {
-                location.replace("/");
+                location.replace("/index.html");
             }
         });
     }
@@ -189,7 +189,7 @@ function goToProfile() {
 }
 
 function goToIndexPage() {
-    location.replace("/");
+    location.replace("/index.html");
 }
 
 function createAd() {
