@@ -2,8 +2,6 @@ package ru.kibis.car.domain;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 
-import org.springframework.data.annotation.PersistenceConstructor;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 @Entity
