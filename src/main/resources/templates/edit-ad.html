@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Auto Seller</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script th:src="@{/js/scripts.js}" ></script>
+<script th:src="@{/js/editAd.js}" ></script>
+<br/>
+<br/>
+<div class="row" name="login_details" id="login_details">
+    <script>$(checkUser())</script>
+</div>
+<script>$(fillLists())</script>
+<br/>
+<br/>
+<div class="row">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-4">
+        <form class="form-vertical">
+            <div class="form-group">
+                <label class="control-label " for="manufacturer">Car manufacturer:</label>
+                <select class="form-control col-sm-4" id="manufacturer">
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label " for="model">Car model:</label>
+                <select class="form-control col-sm-4" id="model">
+                    <script>
+                        $('#manufacturer').change(function () {
+                            fillModels($('#manufacturer').val());
+                        });
+                    </script>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label " for="body_type">Body type:</label>
+                <select class="form-control col-sm-4" id="body_type">
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label " for="engine_type">Engine type:</label>
+                <select class="form-control col-sm-4" id="engine_type">
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label " for="engine_value">Engine value:</label>
+                <input type="number" class="form-control col-sm-4" id="engine_value" placeholder="Value in cm3"
+                       name="engine_value">
+            </div>
+            <div class="form-group">
+                <label class="control-label " for="gearbox_type">Gearbox type:</label>
+                <select class="form-control col-sm-4" id="gearbox_type">
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label " for="year">Car year:</label>
+                <input type="number" class="form-control col-sm-4" id="year" placeholder="Enter Car year" name="year">
+            </div>
+            <div class="form-group">
+                <label class="control-label " for="mileage">Car mileage:</label>
+                <input type="number" class="form-control col-sm-4" id="mileage" placeholder="Enter Car mileage"
+                       name="mileage">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" rows="5" id="description" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 ">
+                    <button type="button" class="btn btn-danger col-sm-3" onclick="updateAd()">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
