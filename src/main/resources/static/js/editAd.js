@@ -128,18 +128,24 @@ function fillModels(manufacturer) {
 
 function updateAd() {
     if (validateAd()) {
+        var engine = {
+            "type": $('#engine_type').val(),
+            "value": $('#engine_value').val()
+        };
+        var car = {
+            "brand": $('#manufacturer').val(),
+            "model": $('#model').val(),
+            "body": $('#body_type').val(),
+            "engine": engine,
+            "gearbox": $('#gearbox_type').val()
+        };
         $.ajax({
             url: '/ad_edit_servlet',
             method: 'POST',
             data: {
                 user_id: sessionStorage.getItem("id"),
                 ad_id: sessionStorage.getItem("ad_id"),
-                manufacturer: $('#manufacturer').val(),
-                model: $('#model').val(),
-                body_type: $('#body_type').val(),
-                engine_type: $('#engine_type').val(),
-                engine_value: $('#engine_value').val(),
-                gearbox_type: $('#gearbox_type').val(),
+                car: JSON.stringify(car),
                 year: $('#year').val(),
                 mileage: $('#mileage').val(),
                 description: $('#description').val(),

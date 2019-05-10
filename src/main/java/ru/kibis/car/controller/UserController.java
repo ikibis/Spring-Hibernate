@@ -37,8 +37,9 @@ public class UserController {
         this.userService.add(user);
     }
 
-    @PostMapping("/user_update_servlet")
-    public void updateUser(
+    @PostMapping(value = "/user_update_servlet", produces = "application/json")
+    @ResponseBody
+    public User updateUser(
             @RequestParam("id") int id,
             @RequestParam("login") String login,
             @RequestParam("password") String password,
@@ -52,7 +53,8 @@ public class UserController {
         user.setName(name);
         user.setEmail(email);
         user.setCity(city);
-        this.userService.update(user);
+        System.out.println(user.getLogin());
+        return this.userService.update(user);
     }
 
     @GetMapping(value = "/user_update_servlet", produces = "application/json")

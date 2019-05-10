@@ -21,7 +21,7 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private BodyType body;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "engine_id")
     private Engine engine;
 

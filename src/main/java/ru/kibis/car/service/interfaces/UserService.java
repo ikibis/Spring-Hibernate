@@ -9,10 +9,6 @@ public interface UserService {
 
     User update(User user);
 
-    void delete(int id);
-
-    List<User> findAll();
-
     User findById(int id);
 
     User isCredentional(String login, String password);

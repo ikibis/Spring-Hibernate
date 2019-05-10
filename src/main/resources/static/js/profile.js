@@ -68,7 +68,9 @@ function updateUser() {
                 email : $('#email').val(),
                 city: $('#city').val()
             },
-            complete: function () {
+            complete: function (responce) {
+                var updated_user = JSON.parse(responce.responseText);
+                sessionStorage.setItem("login", updated_user.login);
                 location.replace("/index.html");
             }
         });

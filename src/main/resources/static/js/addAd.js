@@ -1,23 +1,30 @@
 function addAd() {
     if (validateAd()) {
+        var engine = {
+            "type": $('#engine_type').val(),
+            "value": $('#engine_value').val()
+        };
+        var car = {
+            "brand": $('#manufacturer').val(),
+            "model": $('#model').val(),
+            "body": $('#body_type').val(),
+            "engine": engine,
+            "gearbox": $('#gearbox_type').val()
+        };
         $.ajax({
             url: '/ad_create_servlet',
             method: 'POST',
             data: {
                 user_id: sessionStorage.getItem("id"),
-                manufacturer: $('#manufacturer').val(),
-                model: $('#model').val(),
-                body_type: $('#body_type').val(),
-                engine_type: $('#engine_type').val(),
-                engine_value: $('#engine_value').val(),
-                gearbox_type: $('#gearbox_type').val(),
+                car: JSON.stringify(car),
                 year: $('#year').val(),
                 mileage: $('#mileage').val(),
                 description: $('#description').val(),
             },
             complete: function (response) {
                 var ad = JSON.parse(response.responseText);
-                sendPhoto(ad.id);
+                document.getElementById('ad_id').value = ad.id;
+                $('#photo_form').submit();
             }
         });
     }
@@ -109,30 +116,6 @@ function fillLists() {
             }
         }
     );
-}
-
-function sendPhoto(id) {
-    var ajaxData = new FormData();
-    $.each($("input[type=file]"), function (i, obj) {
-        $.each(obj.files, function (j, file) {
-            ajaxData.append(id, file);
-        })
-    });
-    $.ajax({
-        url: '/photo_servlet',
-        enctype: 'multipart/form-data',
-        data: ajaxData,
-        /*data: {
-            files: ajaxData,
-            ad_id: id
-        },*/
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        complete: function () {
-            location.replace("/index.html");
-        }
-    });
 }
 
 function fillModels(manufacturer) {

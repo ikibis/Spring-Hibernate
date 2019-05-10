@@ -28,16 +28,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(int id) {
-        this.repository.deleteById(id);
-    }
-
-    @Override
-    public List<User> findAll() {
-        return this.repository.findAll();
-    }
-
-    @Override
     public User findById(int id) {
         return this.repository.findById(id);
     }

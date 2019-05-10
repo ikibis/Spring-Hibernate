@@ -5,6 +5,7 @@ import ru.kibis.car.domain.car.Car;
 
 import javax.persistence.*;
 import java.sql.Date;
+
 @Entity
 @Table(name = "ads")
 public class Ad {
@@ -12,7 +13,7 @@ public class Ad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "car_id")
     private Car car;
 
@@ -25,14 +26,15 @@ public class Ad {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(name ="status")
+    @Column(name = "status")
     private Status status;
 
-    @Column(name ="createdate")
+    @Column(name = "createdate")
     private Date createDate;
 
     public Ad() {
     }
+
     @PersistenceConstructor
     public Ad(Car car, User user, int year, int mileage, String description, Status status, Date createDate) {
         this.car = car;

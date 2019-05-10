@@ -21,7 +21,7 @@ function showAd() {
                 "    <li class=\"list-group-item\">Mileage : " + ad.mileage + "</li>\n" +
                 "    <li class=\"list-group-item\">Status : " + ad.status + "</li>\n" +
                 "    <li class=\"list-group-item\">Description : " + ad.description + "</li>\n" +
-                "    <li class=\"list-group-item\">Contacts : " + ad.user.contacts + "</li>\n" +
+                "    <li class=\"list-group-item\">Contacts : " + ad.user.email + "</li>\n" +
                 "  </ul>";
             $('#car_ad').html(result);
             getPhoto(ad.id);
@@ -33,7 +33,7 @@ function getPhoto() {
     $.ajax({
         url: '/photo_servlet',
         method: 'GET',
-        async: false,
+        async: true,
         data: {
             ad_id: sessionStorage.getItem("ad_id")
         },
@@ -41,12 +41,7 @@ function getPhoto() {
             var result = '';
             var photosIdList = JSON.parse(response.responseText);
             for (var i = 0; i < photosIdList.length; i++) {
-                if (i == 0) {
-                    result += '<div class="item active">';
-                } else {
-                    result += '<div class="item">';
-                }
-                result +=  "<img src=\"/show_photo_servlet?id=" + photosIdList[i] + "\"  style=\"width:100%;\"/></div>";
+                result += "<img class=\"img-thumbnail\" width=\"912\" height=\"708\" src=\"/show_photo_servlet?id=" + photosIdList[i] + "\" />";
             }
             $('#carPhotos').html(result);
         }

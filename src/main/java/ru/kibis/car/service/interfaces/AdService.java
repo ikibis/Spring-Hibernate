@@ -19,15 +19,11 @@ public interface AdService {
 
     Ad updateAd(Ad ad);
 
-    void deleteById(int id);
-
     List<Map<String, String>> findAllForBoard(String searchType, String brand);
 
     Ad findById(int id);
 
     List<Ad> findByUser(User user);
-
-    List<String> getAdStatuses();
 
     List<String> getBodyTypes();
 

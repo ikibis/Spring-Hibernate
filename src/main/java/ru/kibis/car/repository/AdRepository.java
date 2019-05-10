@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 @Repository
 public interface AdRepository extends CrudRepository<Ad, Integer> {
+    @Query("from Ad where status = 'ACTIVE'")
     List<Ad> findAll();
 
     Ad findById(int id);

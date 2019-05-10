@@ -1,5 +1,6 @@
 package ru.kibis.car.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,9 @@ import ru.kibis.car.domain.User;
 import ru.kibis.car.service.interfaces.AdService;
 import ru.kibis.car.service.interfaces.UserService;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,27 +57,14 @@ public class AdController {
     @PostMapping(value = "/ad_create_servlet", produces = "application/json")
     @ResponseBody
     public Ad createAd(
-            @RequestParam("manufacturer") String manufacturer,
-            @RequestParam("model") String model,
-            @RequestParam("body_type") String bodyType,
-            @RequestParam("engine_type") String engineType,
-            @RequestParam("engine_value") int engineValue,
-            @RequestParam("gearbox_type") String gearboxType,
+            @RequestParam("car") String carJSON,
             @RequestParam("user_id") int userId,
             @RequestParam("year") int year,
             @RequestParam("mileage") int mileage,
             @RequestParam("description") String description
-    ) {
-        Car car = new Car(
-                Manufacturer.valueOf(manufacturer),
-                model,
-                BodyType.valueOf(bodyType),
-                new Engine(
-                        EngineType.valueOf(engineType),
-                        engineValue
-                ),
-                GearboxType.valueOf(gearboxType)
-        );
+    ) throws IOException {
+        Reader reader = new StringReader(carJSON);
+        Car car = new ObjectMapper().readValue(reader, Car.class);
         User user = userService.findById(userId);
         Ad ad = new Ad(car, user, year, mileage, description, Status.ACTIVE, new Date(System.currentTimeMillis()));
         return adService.addAd(ad);
@@ -96,25 +87,13 @@ public class AdController {
     public Ad updateAd(
             @RequestParam("user_id") int userId,
             @RequestParam("ad_id") int adId,
-            @RequestParam("manufacturer") String manufacturer,
-            @RequestParam("model") String model,
-            @RequestParam("body_type") String bodyType,
-            @RequestParam("engine_type") String engineType,
-            @RequestParam("engine_value") int engineValue,
-            @RequestParam("gearbox_type") String gearboxType,
+            @RequestParam("car") String carJSON,
             @RequestParam("year") int year,
             @RequestParam("mileage") int mileage,
             @RequestParam("description") String description
-    ) {
-        Car car = new Car(
-                Manufacturer.valueOf(manufacturer),
-                model,
-                BodyType.valueOf(bodyType),
-                new Engine(
-                        EngineType.valueOf(engineType),
-                        engineValue),
-                GearboxType.valueOf(gearboxType)
-        );
+    ) throws IOException {
+        Reader reader = new StringReader(carJSON);
+        Car car = new ObjectMapper().readValue(reader, Car.class);
         User user = userService.findById(userId);
         Ad ad = adService.findById(adId);
         ad.setUser(user);

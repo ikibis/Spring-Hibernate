@@ -38,11 +38,6 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public void deleteById(int id) {
-        this.repository.deleteById(id);
-    }
-
-    @Override
     public List<Map<String, String>> findAllForBoard(String searchType, String brand) {
         List<Ad> fromStorage = new CopyOnWriteArrayList<>();
         Manufacturer brandToSearch = null;
@@ -92,13 +87,6 @@ public class AdServiceImpl implements AdService {
     @Override
     public List<Ad> findByUser(User user) {
         return this.repository.findAllByUser(user);
-    }
-
-    public List<String> getAdStatuses() {
-        return Arrays.stream(
-                Status.values())
-                .map(Enum::toString)
-                .collect(Collectors.toList());
     }
 
     public List<String> getBodyTypes() {

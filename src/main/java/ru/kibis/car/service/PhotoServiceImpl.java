@@ -32,11 +32,6 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public List<Photo> getAll() {
-        return this.photoRepository.findAll();
-    }
-
-    @Override
     public Photo getById(int id) {
         return this.photoRepository.findById(id);
     }

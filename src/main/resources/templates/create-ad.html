@@ -29,10 +29,10 @@
     <div class="col-sm-4">
         <fieldset>
             <legend>Upload Car Photos</legend>
-            <form action="photo_servlet" method="post" enctype="multipart/form-data" id="photo_form" name="photo_form">
+            <form id="photo_form" name="photo_form" method="POST" enctype="multipart/form-data" action="/photo_servlet">
                 <label for="file">Photos : </label>
-                <input id="file" type="file" name="file" size="50" multiple/>
-                <!--<input type="submit" value="Upload File"/>-->
+                <input id="file" type="file" name="file" size="50" multiple />
+                <input type="hidden" id="ad_id"  name="ad_id"  />
             </form>
         </fieldset>
     </div>
