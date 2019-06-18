@@ -267,7 +267,7 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
                     <changeLogFile>${basedir}/db/master.xml</changeLogFile>
-                    <url>${db.url}</url>
+                    ${env.JDBC_DATABASE_URL}
                 </configuration>
             </plugin>
             <plugin>
